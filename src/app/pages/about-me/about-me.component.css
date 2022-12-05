@@ -1,12 +1,14 @@
 .row .col{
-  border: 0.1px solid black;
+  border: 0.1px solid #f5f5f5;
   box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
   -webkit-box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
   -moz-box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
+  background: #fff;
 }
 
 .card-1{
   border-radius: 20px 0 0 20px;
+  border-right: 0px solid #fff;
 }
 
 .card-3{

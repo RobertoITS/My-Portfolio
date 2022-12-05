@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import * as AOS from 'aos'
 
 declare var jQuery:any;
 declare var $:any;
@@ -9,6 +10,10 @@ declare var $:any;
 })
 export class AppComponent {
   title = 'my-portfolio';
+  ngOnInit(){
+    AOS.init()
+    window.addEventListener('load', AOS.refresh)
+  }
   ngAfterViewInit(){
     const header = document.getElementById('header')
     const toggle = document.getElementById('toggle')
