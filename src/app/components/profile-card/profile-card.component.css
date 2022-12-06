@@ -47,6 +47,10 @@
   transition: 0.2s;
 }
 
+.btn:hover{
+  transform: scale(1.2);
+}
+
 .btn:hover, .btn-common:hover{
   margin-top: -10px;
   background: #9051ff;
@@ -103,10 +107,10 @@
 }
 
 .send-message button {
-  width: 100%;
+  width: 150px;
   margin-top: 50px;
   padding: 10px 0;
-  background: #6fd649;
+  background: #9051ff;
   color: #fff;
   border: 0;
   outline: none;
@@ -125,4 +129,8 @@
 /* Desactiva el hover */
 .noHover{
   pointer-events: none;
+}
+
+.toast-img{
+  width: 15px;
 }
