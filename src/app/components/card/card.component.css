@@ -1,11 +1,11 @@
 *{
   font-family: consolas;
+  margin: 0;
+  padding: 0;
 }
 
 .card-cont{
-  margin: 20px;
   cursor: pointer;
-  border: 0;
   display: inline-block;
 }
 
@@ -24,8 +24,16 @@
 }
 
 .card-cont:hover .face.face1{
-  background: #9051ff;
+  animation: background 1s infinite alternate;
   transform: translateY(0);
+}
+@keyframes background {
+  from {
+    background: #9051ff;
+  }
+  to {
+    background: #9151ffc7;
+  }
 }
 
 .card-cont .face.face1 .content{
@@ -82,8 +90,8 @@
 }
 
 .card-cont .face.face2 .content a:hover{
-  background: #9051ff;
-  border-color: #9051ff;
+  animation: background 1s infinite alternate;
+  border-color: transparent;
   color: #fff;
   transition: 0.3s
 }

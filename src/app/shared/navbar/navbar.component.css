@@ -104,7 +104,7 @@ header{
 
 #navbar ul li a:hover{
   color: #fff;
-  background: #9051ff;
+  animation: background 2s infinite alternate;
 }
 
 #navbar.active{
@@ -136,5 +136,33 @@ header{
     flex-direction: column;
     justify-content: center;
     align-items: center;
+  }
+}
+
+#toggle:hover{
+  animation: background 2s infinite alternate;
+}
+
+#toggle.active:hover{
+  animation: background-active 2s infinite alternate;
+}
+
+
+/*! Animations */
+@keyframes background-active {
+  from {
+    background: #f72269cb;
+  }
+  to {
+    background: #f7226a;
+  }
+}
+
+@keyframes background {
+  from {
+    background: #9151ffc7;
+  }
+  to {
+    background: #9051ff;
   }
 }
