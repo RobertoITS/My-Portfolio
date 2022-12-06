@@ -1,24 +1,24 @@
-*{
+* {
   text-align: center;
 }
 
-body{
+body {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
-.img_one{
+.img_one {
   margin: 70px 0px;
 }
-.img_two{
-  margin-top:110px;
+.img_two {
+  margin-top: 110px;
   padding: 0 130px;
 }
 
-@media (max-width: 991px){
-  .img_two{
+@media (max-width: 991px) {
+  .img_two {
     padding: 0 15px;
   }
 }
