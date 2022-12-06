@@ -4,6 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { AboutMeComponent } from './about-me/about-me.component';
 import { WorksComponent } from './works/works.component';
 import { ComponentsModule } from '../components/components.module';
+import { CollaboratorsComponent } from './collaborators/collaborators.component';
 
 
 
@@ -12,6 +13,7 @@ import { ComponentsModule } from '../components/components.module';
     HomeComponent,
     AboutMeComponent,
     WorksComponent,
+    CollaboratorsComponent,
   ],
   imports: [
     CommonModule,
@@ -20,7 +22,8 @@ import { ComponentsModule } from '../components/components.module';
   exports: [
     HomeComponent,
     AboutMeComponent,
-    WorksComponent
+    WorksComponent,
+    CollaboratorsComponent
   ]
 })
 export class PagesModule { }

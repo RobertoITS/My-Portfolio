@@ -166,3 +166,8 @@ header{
     background: #9051ff;
   }
 }
+
+img{
+  width: 50px;
+  height: 50px;
+}

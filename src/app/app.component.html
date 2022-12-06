@@ -2,18 +2,27 @@
   <div class="row">
     <app-navbar></app-navbar>
   </div>
+
   <div class="row home">
     <app-home data-aos="fade-up" data-aos-duration="1500" id="home"></app-home>
   </div>
+
   <div class="row">
     <app-about-me id="about"></app-about-me>
   </div>
 
-  <section data-aos="fade-up-right" id="services">
-    <app-works></app-works>
-  </section>
-  <section data-aos="fade-up-left" id="team">Team</section>
+  <div class="row">
+    <app-works id="services"></app-works>
+  </div>
+
+
+
+  <section id="team">Team</section>
   <section id="portfolio">Portfolio</section>
   <section id="contact">Contact</section>
-  <app-card></app-card>
+  <div class="row">
+    <div class="col"><app-profile-card></app-profile-card></div>
+    <div class="col"><app-profile-card></app-profile-card></div>
+  </div>
+  <app-profile-card></app-profile-card>
 </body>
