@@ -104,7 +104,7 @@ header{
 
 #navbar ul li a:hover{
   color: #fff;
-  animation: background 2s infinite alternate;
+  animation: background 1.3s infinite alternate;
 }
 
 #navbar.active{
@@ -140,11 +140,11 @@ header{
 }
 
 #toggle:hover{
-  animation: background 2s infinite alternate;
+  animation: background 1.3s infinite alternate;
 }
 
 #toggle.active:hover{
-  animation: background-active 2s infinite alternate;
+  animation: background-active 1.3s infinite alternate;
 }
 
 
