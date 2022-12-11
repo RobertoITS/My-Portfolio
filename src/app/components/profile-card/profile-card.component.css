@@ -135,3 +135,8 @@
 .toast-img{
   width: 15px;
 }
+
+/*! Deshabilita DIV*/
+.disable{
+  pointer-events: none;
+}

@@ -18,24 +18,24 @@
 <form class="go-right">
   <div class="row row-cols-1 row-cols-lg-2 row-cols-md-1 mt-3">
     <div class="col">
-      <input id="name" name="name" type="text" required>
-      <label class="input" for="name">Name</label>
+      <input id="nameF" name="nameF" type="text" required>
+      <label class="input" for="nameF">Name</label>
     </div>
     <div class="col">
-        <input id="phone" name="phone" type="tel" required>
-        <label class="input" for="phone">Last Name</label>
+        <input id="lNameF" name="lNameF" type="tel" required>
+        <label class="input" for="lNameF">Last Name</label>
     </div>
-    <div class="col" style="width: 100%;">
-      <input id="email" name="email" type="text" required>
-      <label class="input" for="email">Email</label>
+    <div class="col email-div">
+      <input id="emailF" name="emailF" type="text" required>
+      <label class="input" for="emailF">Email</label>
     </div>
   </div>
 
 
   <div class="col">
-    <textarea id="message" name="phone" required></textarea>
-    <label for="message">Message</label>
+    <textarea id="messageF" name="messageF" required></textarea>
+    <label for="messageF">Message<cite> (optional)</cite></label>
   </div>
 
-  <button class="button" type="button">Send</button>
+  <button class="button" id="send-msg" type="button">Send</button>
 </form>

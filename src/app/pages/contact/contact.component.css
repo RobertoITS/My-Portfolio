@@ -1,14 +1,15 @@
 .ctn{
+  margin: 120px 0;
   padding: 40px;
-  background: black;
+  background: #F7F8FC;
+  box-shadow: 0px 5px 21px -10px rgba(179,168,168,0.75);
+  position: relative;
 }
 
 .form{
   border-radius: 8px;
-  -webkit-box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
-  -moz-box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
-  box-shadow: 0px 5px 8px -1px rgba(179,168,168,0.75);
   background: #fff;
+  box-shadow: -6px 6px 11px 0px rgba(179,168,168,0.75);
 }
 
 select{
@@ -16,8 +17,20 @@ select{
   width: 420px;
 }
 
-select, label {
+label{
   display: block;
+  margin-top: 20px;
+}
+
+select {
+  border: none;
+  border-bottom: 1px solid #9051ff;
+  outline: none;
+  background: transparent;
+}
+
+.bottom{
+  margin-bottom: 60px;
 }
 
 h1, h4{
@@ -27,4 +40,79 @@ h1, h4{
 h4{
   margin-top: 20px;
   margin-bottom: 60px;
+}
+
+@media (max-width: 991px){
+  select{
+    width: 100%;
+  }
+}
+
+
+/* Pop Up Message */
+.send-message{
+  width: 400px;
+  border-radius: 6px;
+  position: absolute;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 190px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  transform: scale(0); /* Escalamos el elemento para animarlo despues */
+  text-align: center;
+  padding: 0 30px 30px;
+  visibility: hidden; /* Ocultamos el contenedor */
+  transition: .2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.send-message .img {
+  width: 100px;
+  margin-top: -50px;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.send-message h2 {
+  font-size: 28px;
+  font-weight: 300;
+}
+
+.send-message button {
+  width: 150px;
+  margin-top: 50px;
+  padding: 10px 0;
+  background: #9051ff;
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+/* Agregar esta clase */
+.visible{
+  transform: scale(1);
+  visibility: visible;
+}
+/* Agregar esta clase */
+.blur{
+  filter: blur(5px);
+  transition: .5s;
+}
+
+/*! Deshabilita DIV*/
+.disable{
+  pointer-events: none;
+}
+
+@media (max-width: 991px){
+  .form{
+    box-shadow: 0px 6px 11px 0px rgba(179,168,168,0.75);
+  }
 }

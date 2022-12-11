@@ -77,8 +77,11 @@ h4{
     margin-top: 50px;
   }
   h5{
-    margin-bottom: 20px;
-    padding: 0 10px;
+    margin-bottom: 60px;
+    padding: 0 60px;
+  }
+  .back{
+    height: 130%;
   }
   .card-1, .card-2{
     border-right: none;

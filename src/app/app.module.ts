@@ -7,6 +7,13 @@ import { ComponentsModule } from './components/components.module';
 import { PagesModule } from './pages/pages.module';
 import { SharedModule } from './shared/shared.module';
 
+import { LottieModule } from 'ngx-lottie';
+import player from 'lottie-web'
+
+export function playerFactory(): any{
+  return import('lottie-web')
+}
+
 @NgModule({
   declarations: [
     AppComponent
@@ -16,7 +23,8 @@ import { SharedModule } from './shared/shared.module';
     AppRoutingModule,
     SharedModule,
     PagesModule,
-    ComponentsModule
+    ComponentsModule,
+    LottieModule.forRoot({ player: playerFactory })
   ],
   providers: [],
   bootstrap: [AppComponent]

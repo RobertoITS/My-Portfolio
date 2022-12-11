@@ -26,12 +26,8 @@ export class ProfileCardComponent {
     //* Abrimos la ventana emergente:
     console.log(this.btn);
     this.btn.nativeElement.addEventListener('click', () =>{
-      this.container.nativeElement.classList.add('blur')  //! Simplemente le agregamos clases, CSS se encarga del resto
+      this.container.nativeElement.classList.add('blur', 'disable')  //! Simplemente le agregamos clases, CSS se encarga del resto
       this.popup.nativeElement.classList.add('visible')
-      this.follow.nativeElement.setAttribute('disabled', '')
-      this.btn.nativeElement.setAttribute('disabled', '')
-      this.follow.nativeElement.classList.add('noHover')
-      this.btn.nativeElement.classList.add('noHover')
     })
 
     //* Cerramos la ventana emergente
@@ -66,12 +62,8 @@ export class ProfileCardComponent {
 
 
   closePopUp(){
-    this.container.nativeElement.classList.remove('blur') //* Cerramos la ventana
+    this.container.nativeElement.classList.remove('blur', 'disable') //* Cerramos la ventana
     this.popup.nativeElement.classList.remove('visible')
-    this.follow.nativeElement.removeAttribute('disabled', '')
-    this.btn.nativeElement.removeAttribute('disabled', '')
-    this.follow.nativeElement.classList.remove('noHover')
-    this.btn.nativeElement.classList.remove('noHover')
 
     //! Una vez que se envie el msg, se vacia el campo!!
     this.input.nativeElement.value = ""

@@ -127,6 +127,10 @@ form.go-right textarea:focus + label {
   transition: 0.2s;
 }
 
+.email-div{
+  width: 100%;
+}
+
 .button:hover{
   margin-top: 50px;
   margin-bottom: 70px;

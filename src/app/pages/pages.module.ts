@@ -7,7 +7,7 @@ import { ComponentsModule } from '../components/components.module';
 import { CollaboratorsComponent } from './collaborators/collaborators.component';
 import { ContactComponent } from './contact/contact.component';
 
-
+import { LottieModule } from 'ngx-lottie'
 
 @NgModule({
   declarations: [
@@ -19,7 +19,8 @@ import { ContactComponent } from './contact/contact.component';
   ],
   imports: [
     CommonModule,
-    ComponentsModule
+    ComponentsModule,
+    LottieModule
   ],
   exports: [
     HomeComponent,

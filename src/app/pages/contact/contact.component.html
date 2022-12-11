@@ -1,36 +1,49 @@
-<div class="ctn">
-  <div class="row">
+<div id="disable" class="ctn">
+
+  <!--!Lottie animation-->
+  <div id="message-send" class="send-message">
+    <div class="lottie-animation mt-10 img">
+      <ng-lottie
+        [options]="ok"
+        (animationCreated)="onAnimate($event)">
+      </ng-lottie>
+
+    </div>
+    <h4 id="text-msg" class="text-white">message</h4>
+  </div>
+
+  <div id="form" class="row row-cols-1 row-cols-lg-2 row-cols-md-2 mt-5">
     <div class="col">
       <h1>How can we help?</h1>
       <h4>Please select a topic below related to  your inquiry. If you don't find what you need, fill our contact form</h4>
       <form>
         <div>
-          <label for="topic-1">Topic 1</label>
+          <label for="topic-1"><strong>Book a demo</strong></label>
           <select name="topic-1" id="topic-1">
             <option value="don't-know">Don't Know</option>
-            <option value="option-1">Option one</option>
-            <option value="option-2">Option two</option>
-            <option value="option-3">Option three</option>
+            <option value="option-1">Request a demo from one of our projects</option>
+            <option value="option-2">View more demos of our company</option>
+            <option value="option-3">Present a demo to our company</option>
           </select>
         </div>
 
         <div>
-          <label for="topic-2">Topic 2</label>
+          <label for="topic-2"><strong>Get inspired</strong></label>
           <select name="topic-2" id="topic-2">
             <option value="don't-know">Don't Know</option>
-            <option value="option-1">Option one</option>
-            <option value="option-2">Option two</option>
-            <option value="option-3">Option three</option>
+            <option value="option-1">Discover our design</option>
+            <option value="option-2">View our frameworks templates</option>
+            <option value="option-3">Present a template</option>
           </select>
         </div>
 
-        <div>
-          <label for="topic-3">Topic 3</label>
+        <div class="bottom">
+          <label for="topic-3"><strong>Become a partner</strong></label>
           <select name="topic-3" id="topic-3">
             <option value="don't-know">Don't Know</option>
-            <option value="option-1">Option one</option>
-            <option value="option-2">Option two</option>
-            <option value="option-3">Option three</option>
+            <option value="option-1">Join our team</option>
+            <option value="option-2">Present your portfolio</option>
+            <option value="option-3">Know more about us</option>
           </select>
         </div>
 
