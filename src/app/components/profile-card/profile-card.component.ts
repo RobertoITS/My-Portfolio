@@ -33,22 +33,22 @@ export class ProfileCardComponent {
     //* Cerramos la ventana emergente
     this.send.nativeElement.addEventListener('click', () =>{
       if (this.input.nativeElement.value.length == 0) { //* No se ingresa texto en el input
-        this.title.nativeElement.innerHTML = "Alerta!"
-        this.msg.nativeElement.innerHTML = "No se ha ingresado texto!"
-        this.bg.nativeElement.classList.remove('text-bg-success')
-        this.bg.nativeElement.classList.add('text-bg-danger')
-        this.msg.nativeElement.classList.remove('text-bg-success')
-        this.msg.nativeElement.classList.add('text-bg-danger')
-        this.img.nativeElement.setAttribute('src', 'assets/img/alert.png')
+        this,this.changeClassList(
+          'Alerta!',
+          'No se ha ingresado texto!',
+          'text-bg-danger',
+          'text-bg-success',
+          'assets/img/alert.png'
+        )
         toast2.show()
       } else { //* Texto ingresado
-        this.title.nativeElement.innerHTML = "Completado"
-        this.msg.nativeElement.innerHTML = "El mensaje se ha enviado con exito!"
-        this.bg.nativeElement.classList.add('text-bg-success')
-        this.bg.nativeElement.classList.remove('text-bg-danger')
-        this.msg.nativeElement.classList.add('text-bg-success')
-        this.msg.nativeElement.classList.remove('text-bg-danger')
-        this.img.nativeElement.setAttribute('src', 'assets/img/checked.png')
+        this.changeClassList(
+          'Completado',
+          'El mensaje se ha enviado con exito!',
+          'text-bg-success',
+          'text-bg-danger',
+          'assets/img/checked.png'
+          )
         toast2.show()
       }
       this.closePopUp()
@@ -60,6 +60,16 @@ export class ProfileCardComponent {
     })
   }
 
+  changeClassList(title: string, body: string, add: string, remove: string, img: string){
+    this.title.nativeElement.innerHTML = title
+    this.msg.nativeElement.innerHTML = body
+    this.bg.nativeElement.classList.add(add)
+    this.bg.nativeElement.classList.remove(remove)
+    this.msg.nativeElement.classList.add(add)
+    this.msg.nativeElement.classList.remove(remove)
+    this.img.nativeElement.setAttribute('src', img)
+
+  }
 
   closePopUp(){
     this.container.nativeElement.classList.remove('blur', 'disable') //* Cerramos la ventana

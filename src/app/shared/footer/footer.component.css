@@ -1,21 +1,21 @@
-#bottom-color {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-
-a{
+*{
+  transition: 0.2s !important; /*! Hacemos una transicion universal*/
   text-decoration: none !important;
 }
 
-footer {
-  margin-top: 70px;
-  background: #9051ff;
-}
-
+/** Contenedor principal */
 .rel {
   position: relative;
   padding-top: 100px;
 }
 
+/** El contenedor detras */
+footer {
+  margin-top: 70px;
+  background: #9051ff;
+}
+
+/** El contenedor delante */
 .cont {
   width: 95%;
   background: #141c3a;
@@ -27,38 +27,62 @@ footer {
   box-shadow: 0px 3px 9px 0px rgba(0, 0, 0, 0.42);
 }
 
+/** Hijo del contenedor delante */
 .s-project {
   height: 170px;
 }
 
-.submit i{
+/** El background del fondo*/
+#bottom-color {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+/** El hover de los iconos de las redes */
+section > a:hover {
+  color: #9051ff !important;
+}
+
+/** El hover del boton */
+button:hover{
+  color: #9051ff !important;
+}
+
+/** El hover de los links */
+li > a:hover {
+  letter-spacing: 4px;
+}
+
+/** El logo principal */
+div > img {
+  width: 150px;
+  filter: invert(100%);
+  margin-top: 100px;
+}
+
+/** Animaciones del boton Submit */
+.submit i { /** El icono */
   padding-right: 15px;
-  transition: 0.2s;
 }
 
-.submit:hover{
-  background: #5BE9B9;
-  color: #141c3a !important;
-}
-
-.submit:hover i{
+.submit:hover i {
   transform: translateX(8px);
 }
 
-.submit{
-  padding: 10px;
-  font-weight: bold;
-  border: 2px solid #5BE9B9;
-  border-radius: 35px;
-  background: transparent;
-  transition: 0.2s;
-  text-decoration: none;
+.submit:hover { /** El boton */
+  background: #5be9b9;
+  color: #141c3a !important;
 }
 
+.submit {
+  padding: 10px;
+  font-weight: bold;
+  border: 2px solid #5be9b9;
+  border-radius: 35px;
+  background: transparent;
+}
 
-/* Responsive */
-
-@media (max-width: 991px){
+/*! Responsive */
+@media (max-width: 991px) {
   .s-project {
     margin: 40px 0 90px 0;
   }
@@ -67,11 +91,11 @@ footer {
     margin-top: 190px;
   }
 
-  .submit{
+  .submit {
     margin-top: 30px;
   }
 
-  .contact{
+  .contact {
     margin-top: 20px;
   }
 }

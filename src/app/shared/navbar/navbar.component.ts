@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -6,26 +6,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
+  @ViewChild('toggle') toggle!: ElementRef
+  @ViewChild('navbar') navbar!: ElementRef
   ngAfterViewInit() {
-    const header = document.getElementById('header');
-    const toggle = document.getElementById('toggle');
-    const navbar = document.getElementById('navbar');
 
-    document.onclick = function (e) {
+    //! Al hacer click en cualquier area que no sea el header, toggle o el navbar, esconde el menu
+    document.onclick = (e) => {
       const element = e.target as HTMLElement;
       if (
         element.id !== 'header' &&
         element.id !== 'toggle' &&
         element.id !== 'navbar'
       ) {
-        toggle?.classList.remove('active');
-        navbar?.classList.remove('active');
+        this.toggle.nativeElement.classList.remove('active');
+        this.navbar.nativeElement.classList.remove('active');
       }
     };
 
-    toggle!!.onclick = function () {
-      toggle!!.classList.toggle('active');
-      navbar!!.classList.toggle('active');
+    this.toggle.nativeElement.onclick = () => {
+      this.toggle.nativeElement.classList.toggle('active');
+      this.navbar.nativeElement.classList.toggle('active');
     };
   }
 }
