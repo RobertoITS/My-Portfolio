@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { CardComponent } from './card/card.component';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { FormComponent } from './form/form.component';
+import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 
 
 
@@ -11,7 +12,8 @@ import { FormComponent } from './form/form.component';
   declarations: [
     CardComponent,
     ProfileCardComponent,
-    FormComponent
+    FormComponent,
+    SplashScreenComponent
   ],
   imports: [
     CommonModule
@@ -19,7 +21,8 @@ import { FormComponent } from './form/form.component';
   exports: [
     CardComponent,
     ProfileCardComponent,
-    FormComponent
+    FormComponent,
+    SplashScreenComponent
   ]
 })
 export class ComponentsModule { }

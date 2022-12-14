@@ -1,8 +1,7 @@
+<div class="row">
+  <app-navbar></app-navbar>
+</div>
 <body>
-  <div class="row">
-    <app-navbar></app-navbar>
-  </div>
-
   <div class="row home">
     <app-home data-aos="fade-up" data-aos-duration="1500" id="home"></app-home>
   </div>
@@ -25,5 +24,12 @@
 
 
 
-  <app-footer></app-footer>
+  <app-footer id="start-project"></app-footer>
 </body>
+
+<!--! Pasamos los valores para las animaciones, animation es una variable en el componente -->
+<app-splash-screen
+  [animationType]="animation"
+  [duration]="2"
+  [animationDuration]="1"
+></app-splash-screen>

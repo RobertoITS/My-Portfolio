@@ -1,0 +1,8 @@
+<!--! NgStyle para cambiar los estilos desde el TypeScrip file, NgIf para la visibilidad -->
+<div class="app-splash-screen" *ngIf="showSplash" [ngStyle]="{ left: windowWidth, opacity: opacityChange, transition: splashTransition }">
+    <div class="app-splash-screen-inner">
+        <div class="app-logo"></div>
+        <div class="app-label">My Portfolio</div>
+        <div class="app-loader"></div>
+    </div>
+</div>
