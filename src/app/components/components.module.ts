@@ -4,6 +4,7 @@ import { CardComponent } from './card/card.component';
 import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { FormComponent } from './form/form.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
+import { ImageCropperComponent } from './image-cropper/image-cropper.component';
 
 
 
@@ -13,7 +14,8 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
     CardComponent,
     ProfileCardComponent,
     FormComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    ImageCropperComponent
   ],
   imports: [
     CommonModule
@@ -22,7 +24,8 @@ import { SplashScreenComponent } from './splash-screen/splash-screen.component';
     CardComponent,
     ProfileCardComponent,
     FormComponent,
-    SplashScreenComponent
+    SplashScreenComponent,
+    ImageCropperComponent
   ]
 })
 export class ComponentsModule { }

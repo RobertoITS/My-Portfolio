@@ -14,6 +14,9 @@ export function playerFactory(): any{
   return import('lottie-web')
 }
 
+import { HttpClientModule } from '@angular/common/http'
+
+
 @NgModule({
   declarations: [
     AppComponent
@@ -24,7 +27,9 @@ export function playerFactory(): any{
     SharedModule,
     PagesModule,
     ComponentsModule,
-    LottieModule.forRoot({ player: playerFactory })
+    AppRoutingModule,
+    LottieModule.forRoot({ player: playerFactory }),
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

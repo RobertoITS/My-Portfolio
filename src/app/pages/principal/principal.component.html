@@ -1,0 +1,33 @@
+<div class="row">
+  <app-navbar></app-navbar>
+</div>
+<body>
+  <div class="row home">
+    <app-home data-aos="fade-up" data-aos-duration="1500" id="home"></app-home>
+  </div>
+
+  <div class="row">
+    <app-about-me id="about"></app-about-me>
+  </div>
+
+  <div class="row">
+    <app-works id="works"></app-works>
+  </div>
+
+  <div class="row">
+    <app-collaborators id="team"></app-collaborators>
+  </div>
+
+  <div class="row">
+    <app-contact id="contact"></app-contact>
+  </div>
+
+  <app-footer id="start-project"></app-footer>
+</body>
+
+<!--! Pasamos los valores para las animaciones, animation es una variable en el componente -->
+<app-splash-screen
+  [animationType]="animation"
+  [duration]="2"
+  [animationDuration]="1"
+></app-splash-screen>

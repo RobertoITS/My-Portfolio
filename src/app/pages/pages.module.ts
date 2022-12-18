@@ -7,7 +7,12 @@ import { ComponentsModule } from '../components/components.module';
 import { CollaboratorsComponent } from './collaborators/collaborators.component';
 import { ContactComponent } from './contact/contact.component';
 
-import { LottieModule } from 'ngx-lottie'
+import { LottieModule } from 'ngx-lottie';
+import { MyInterfaceComponent } from './myinterface/my-interface.component';
+import { PrincipalComponent } from './principal/principal.component'
+import { SharedModule } from '../shared/shared.module';
+import { ImageCropperComponent } from 'ngx-image-cropper';
+import { ImageCropperModule } from 'ngx-image-cropper';
 
 @NgModule({
   declarations: [
@@ -16,18 +21,23 @@ import { LottieModule } from 'ngx-lottie'
     WorksComponent,
     CollaboratorsComponent,
     ContactComponent,
+    MyInterfaceComponent,
+    PrincipalComponent,
   ],
   imports: [
     CommonModule,
     ComponentsModule,
-    LottieModule
+    LottieModule,
+    SharedModule,
+    ImageCropperModule
   ],
   exports: [
     HomeComponent,
     AboutMeComponent,
     WorksComponent,
     CollaboratorsComponent,
-    ContactComponent
+    ContactComponent,
+    MyInterfaceComponent
   ]
 })
 export class PagesModule { }

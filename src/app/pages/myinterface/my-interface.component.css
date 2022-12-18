@@ -1,0 +1,70 @@
+.relative{
+  position: relative;
+  margin: 0;
+  padding: 35px
+}
+
+/* Pop Up Message */
+.send-message{
+  width: auto;
+  height: auto;
+  background: #fff;
+  border-radius: 6px;
+  position: fixed;
+  margin-left: auto;
+  margin-right: auto;
+  left: 15px;
+  right: 15px;
+  top: 30px;
+  bottom: 30px;
+  z-index: 100;
+  transform: scale(0); /* Escalamos el elemento para animarlo despues */
+  padding: 30px;
+  color: #333;
+  visibility: hidden; /* Ocultamos el contenedor */
+  transition: .2s;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  overflow-y: scroll; /* Scroll in position fixed */
+}
+
+.send-message h2 {
+
+  font-size: 28px;
+  font-weight: 300;
+}
+
+.send-message button {
+  width: 150px;
+  margin-top: 50px;
+  padding: 10px 0;
+  background: #9051ff;
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 4px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+.send-message img {
+  width: 100px;
+  margin: 0;
+  border-radius: 50px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  margin-bottom: 20px;
+}
+
+
+/* Agregar esta clase */
+.visible{
+  transform: scale(1);
+  visibility: visible;
+}
+
+
+/*! Deshabilita DIV*/
+.disable{
+  pointer-events: none;
+}
