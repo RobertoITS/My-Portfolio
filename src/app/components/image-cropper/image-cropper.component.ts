@@ -1,69 +1,79 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
-import Cropper from 'cropperjs'
+import { CropperComponent } from 'angular-cropperjs';
+import { blob } from 'stream/consumers';
 
-import * as $ from 'jquery'
 
 @Component({
   selector: 'app-image-cropper',
   templateUrl: './image-cropper.component.html',
-  styleUrls: ['./image-cropper.component.css']
+  styleUrls: ['./image-cropper.component.css'],
 })
 export class ImageCropperComponent {
-  private cropper!: Cropper;
-  /*@ViewChild("image", { static: false })
-    public imageElement!: ElementRef;
-
-    @Input("src")
-    public imageSource!: string;
-
-    public imageDestination: string;
-    private cropper!: Cropper;
-
-    public constructor() {
-        this.imageDestination = "";
-    }
-
-    public ngAfterViewInit() {
-        this.cropper = new Cropper(this.imageElement.nativeElement, {
-            zoomable: false,
-            scalable: false,
-            aspectRatio: 1,
-            crop: () => {
-                const canvas = this.cropper.getCroppedCanvas();
-                this.imageDestination = canvas.toDataURL("image/png");
-            }
-        });*/
-
-    ngAfterViewInit(){
-      document.getElementById('crop_button')!.addEventListener('click', () =>{
-        var imgurl =  this.cropper.getCroppedCanvas().toDataURL();
-        var img = document.createElement("img");
-        img.src = imgurl;
-        document.getElementById("cropped_result")!.appendChild(img);
-      })
-      function initCropper(){
-        var image = <HTMLImageElement>document.getElementById('blah');
-        var cropper = new Cropper(image, {
-          aspectRatio: 1 / 1,
-          crop: function(e) {
-            console.log(e.detail.x);
-            console.log(e.detail.y);
-          }
-        });
-    }
-    function readURL(input:any) {
-
-      if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-
-              $('#blah').attr('src', e.target?.result!)
-          };
-          reader.readAsDataURL(input.files[0]);
-          setTimeout(initCropper, 1000);
-      }
+  @ViewChild('angularCropper') angularCropper!: CropperComponent
+  @ViewChild('canvas') canvas!: ElementRef
+  imageUrl!: string
+  croppedResult!: string
+  cropper!: Cropper
+  config = {
+    zoomable: true,
+    aspectRatio: 1,
+    viewMode: 1,
   }
-    }
 
-    public ngOnInit() { }
+  //* Obtenemos el archivo y mostramos en la etiqueta:
+  onSelectedFile(event:any){
+    if (event.target.files && event.target.files[0]) {
+      const reader = new FileReader()
+      reader.readAsDataURL(event.target.files[0])
+      reader.onload = () => {
+        this.imageUrl = reader.result as string
+      }
+    }
+  }
+
+  getCroppedImage() {
+
+    const rounded = this.getRoundedCanvas(this.angularCropper.cropper.getCroppedCanvas())
+    rounded.toBlob((blob:any) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(blob!)
+      reader.onload = () => {
+        this.croppedResult = reader.result as string
+        console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
+
+      }
+    }, "image/jpeg", 0.95)
+  }
+
+  rotateLeft() {
+    this.angularCropper.cropper.rotate(-45)
+  }
+
+  rotateRight() {
+    this.angularCropper.cropper.rotate(45)
+  }
+
+  zoomIn() {
+    this.angularCropper.cropper.zoom(0.1)
+  }
+
+  zoomOut() {
+    this.angularCropper.cropper.zoom(-0.1)
+  }
+
+  getRoundedCanvas(sourceCanvas:any) {
+    var context = this.canvas.nativeElement.getContext('2d')!;
+    var width = sourceCanvas.width;
+    var height = sourceCanvas.height;
+
+    this.canvas.nativeElement.width = width;
+    this.canvas.nativeElement.height = height;
+    context.imageSmoothingEnabled = true;
+    context.drawImage(sourceCanvas, 0, 0, width, height);
+    context.globalCompositeOperation = 'destination-in';
+    context.beginPath();
+    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+    context.fill();
+    return this.canvas.nativeElement;
+  }
 }

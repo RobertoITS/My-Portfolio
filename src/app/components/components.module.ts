@@ -5,6 +5,7 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { FormComponent } from './form/form.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
+import { AngularCropperjsModule } from 'angular-cropperjs';
 
 
 
@@ -18,7 +19,8 @@ import { ImageCropperComponent } from './image-cropper/image-cropper.component';
     ImageCropperComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    AngularCropperjsModule
   ],
   exports: [
     CardComponent,

@@ -1,65 +1,38 @@
 <!--<div class="img-container">
   <img #image [src]="imageSource" crossorigin>
 </div>
-<img [src]="imageDestination" class="img-preview">-->
+<img [src]="imageDestination" class="img-preview">
+<button id="cropper">Crop</button>
 
-
-<input type="file" name="image" id="image" onchange="readURL(this);"/>
-<div class="image_container">
-    <img id="blah" src="#" alt="your image" />
+<div class="_container">
+  <form action="">
+    <input #file type="file" name="archivo" id="file">
+    <input type="button" value="Subir archivo" class="button" onclick="document.getElementById('file').click()">
+  </form>
 </div>
-<div id="cropped_result"></div>
-<button id="crop_button">Crop</button>
+-->
+<div class="m-5 d-flex justify-content-center">
+  <div class="card" style="width: 40rem;">
+    <div class="card-body">
+      <section>
+        <input type="file" accept="images/*" (change)="onSelectedFile($event)">
+      </section>
+      <section *ngIf="imageUrl">
+        <canvas #canvas></canvas>
+        <img #image [src]="imageUrl" alt="...">
+        <!--<angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl"><canvas #canvas></canvas></angular-cropper>-->
 
-
-<script type="text/javascript" defer>
-  function readURL(input) {
-      if (input.files && input.files[0]) {
-          var reader = new FileReader();
-          reader.onload = function (e) {
-              $('#blah').attr('src', e.target.result)
-          };
-          reader.readAsDataURL(input.files[0]);
-          setTimeout(initCropper, 1000);
-      }
-  }
-  function initCropper(){
-      var image = document.getElementById('blah');
-      var cropper = new Cropper(image, {
-        aspectRatio: 1 / 1,
-        crop: function(e) {
-          console.log(e.detail.x);
-          console.log(e.detail.y);
-        }
-      });
-
-      // On crop button clicked
-      document.getElementById('crop_button').addEventListener('click', function(){
-          var imgurl =  cropper.getCroppedCanvas().toDataURL();
-          var img = document.createElement("img");
-          img.src = imgurl;
-          document.getElementById("cropped_result").appendChild(img);
-
-          /* ---------------- SEND IMAGE TO THE SERVER-------------------------
-
-              cropper.getCroppedCanvas().toBlob(function (blob) {
-                    var formData = new FormData();
-                    formData.append('croppedImage', blob);
-                    // Use `jQuery.ajax` method
-                    $.ajax('/path/to/upload', {
-                      method: "POST",
-                      data: formData,
-                      processData: false,
-                      contentType: false,
-                      success: function () {
-                        console.log('Upload success');
-                      },
-                      error: function () {
-                        console.log('Upload error');
-                      }
-                    });
-              });
-          ----------------------------------------------------*/
-      })
-  }
-</script>
+        <div class="mt-2">
+          <button class="btn btn-primary" (click)="getCroppedImage()">Recortar</button>
+          <button class="btn btn-primary" (click)="rotateLeft()">Rotar izq</button>
+          <button class="btn btn-primary" (click)="zoomIn()">Zoom in</button>
+          <button class="btn btn-primary" (click)="zoomOut()">Zoom out</button>
+          <button class="btn btn-primary" (click)="rotateRight()">Rotar der</button>
+        </div>
+      </section>
+      <section *ngIf="croppedResult">
+        <img [src]="croppedResult" alt="...">
+      </section>
+    </div>
+  </div>
+</div>
