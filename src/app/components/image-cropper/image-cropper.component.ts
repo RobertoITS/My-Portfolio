@@ -1,6 +1,8 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { CropperComponent } from 'angular-cropperjs';
-import { blob } from 'stream/consumers';
+import Cropper from 'cropperjs';
+import * as bootstrap from 'bootstrap'
+declare var $: any
 
 
 @Component({
@@ -11,13 +13,19 @@ import { blob } from 'stream/consumers';
 export class ImageCropperComponent {
   @ViewChild('angularCropper') angularCropper!: CropperComponent
   @ViewChild('canvas') canvas!: ElementRef
+  @ViewChild('input') input!: ElementRef <HTMLInputElement>
+  @ViewChild('container') container!: ElementRef
   imageUrl!: string
-  croppedResult!: string
+  croppedResult: string = '../assets/img/mf-avatar.svg'
   cropper!: Cropper
   config = {
     zoomable: true,
     aspectRatio: 1,
     viewMode: 1,
+  }
+
+  call(){
+    this.input.nativeElement.click()
   }
 
   //* Obtenemos el archivo y mostramos en la etiqueta:
@@ -27,20 +35,37 @@ export class ImageCropperComponent {
       reader.readAsDataURL(event.target.files[0])
       reader.onload = () => {
         this.imageUrl = reader.result as string
+        this.container.nativeElement.classList.add('visible') //* Mostramos el contendor para cortar la imagen
       }
     }
   }
 
-  getCroppedImage() {
+  cancel(){
+    this.container.nativeElement.classList.remove('visible')
+    this.input.nativeElement.value = ''
+    this.angularCropper.cropper.reset() //* Resetea el cropper
+  }
 
-    const rounded = this.getRoundedCanvas(this.angularCropper.cropper.getCroppedCanvas())
-    rounded.toBlob((blob:any) => {
+  getCroppedImage() {
+    //* Rounded image
+    //const rounded = this.getRoundedCanvas(this.angularCropper.cropper.getCroppedCanvas())
+    /*rounded.toBlob((blob:any) => {
       const reader = new FileReader()
       reader.readAsDataURL(blob!)
       reader.onload = () => {
         this.croppedResult = reader.result as string
         console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
 
+      }
+    }, "image/jpeg", 0.95)*/
+
+    this.angularCropper.cropper.getCroppedCanvas().toBlob((blob:any) => {
+      const reader = new FileReader()
+      reader.readAsDataURL(blob!)
+      reader.onload = () => {
+        this.croppedResult = reader.result as string
+        console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
+        this.cancel() //* Cierra la ventana
       }
     }, "image/jpeg", 0.95)
   }
@@ -61,7 +86,7 @@ export class ImageCropperComponent {
     this.angularCropper.cropper.zoom(-0.1)
   }
 
-  getRoundedCanvas(sourceCanvas:any) {
+  /*getRoundedCanvas(sourceCanvas:any) {
     var context = this.canvas.nativeElement.getContext('2d')!;
     var width = sourceCanvas.width;
     var height = sourceCanvas.height;
@@ -75,5 +100,64 @@ export class ImageCropperComponent {
     context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
     context.fill();
     return this.canvas.nativeElement;
+  }*/
+
+  /*ngAfterViewInit(){
+
+    function getRoundedCanvas(sourceCanvas:any) {
+      var canvas = document.createElement('canvas')
+      var context = canvas.getContext('2d')!;
+      var width = sourceCanvas.width;
+      var height = sourceCanvas.height;
+
+      canvas.width = width;
+      canvas.height = height;
+      context.imageSmoothingEnabled = true;
+      context.drawImage(sourceCanvas, 0, 0, width, height);
+      context.globalCompositeOperation = 'destination-in';
+      context.beginPath();
+      context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
+      context.fill();
+      return canvas;
+    }
+
+    var croppable = false
+    var image = <HTMLImageElement> document.getElementById('image')
+    var button = <HTMLButtonElement> document.getElementById('button')
+    var result = <HTMLImageElement> document.getElementById('result')
+    var cropper = new Cropper(image, {
+      aspectRatio:1,
+      viewMode: 1,
+      ready: function(){
+        croppable = true
+      }
+    })
+
+    button.onclick = function(){
+      var croppedCanvas
+      var roundedCanvas
+      var roundedImage
+
+      if(!croppable){return}
+
+      //* Crop
+      croppedCanvas = cropper.getCroppedCanvas()
+      //* Round
+      roundedCanvas = getRoundedCanvas(croppedCanvas)
+      //* Show
+      roundedImage = document.createElement('img');
+      roundedImage.src = roundedCanvas.toDataURL()
+      result.innerHTML = '';
+      result.appendChild(roundedImage);
+    }
+
+
+
+  }*/
+  ngOnInit(){
+    //* Tooltip para el img!
+    $(document).ready(function() {
+      $('[data-bs-toggle="tooltip"]').tooltip();
+    })
   }
 }

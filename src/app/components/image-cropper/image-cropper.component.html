@@ -1,37 +1,29 @@
-<!--<div class="img-container">
-  <img #image [src]="imageSource" crossorigin>
-</div>
-<img [src]="imageDestination" class="img-preview">
-<button id="cropper">Crop</button>
-
-<div class="_container">
-  <form action="">
-    <input #file type="file" name="archivo" id="file">
-    <input type="button" value="Subir archivo" class="button" onclick="document.getElementById('file').click()">
-  </form>
-</div>
--->
+<!--! La etiqueta img se encarga de llamar las funciones del input, el input queda oculto -->
 <div class="m-5 d-flex justify-content-center">
+  <img data-bs-toggle="tooltip" data-bs-title="Cambiar imagen" class="image" [src]="croppedResult" alt="..." (click)="call()">
+  <input #input type="file" accept="images/*" (change)="onSelectedFile($event)" style="display: none;">
+</div>
+
+
+<!--! Escondemos este contenedor -->
+<div #container class="m-5 d-flex justify-content-center _contenedor">
   <div class="card" style="width: 40rem;">
     <div class="card-body">
-      <section>
-        <input type="file" accept="images/*" (change)="onSelectedFile($event)">
-      </section>
-      <section *ngIf="imageUrl">
-        <canvas #canvas></canvas>
-        <img #image [src]="imageUrl" alt="...">
-        <!--<angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl"><canvas #canvas></canvas></angular-cropper>-->
+      <div style="display: flex; justify-content:end; margin: 8px">
+        <button class="btn btn-danger" (click)="cancel()"><i class="fa fa-times" aria-hidden="true"></i></button>
+      </div>
 
-        <div class="mt-2">
-          <button class="btn btn-primary" (click)="getCroppedImage()">Recortar</button>
-          <button class="btn btn-primary" (click)="rotateLeft()">Rotar izq</button>
-          <button class="btn btn-primary" (click)="zoomIn()">Zoom in</button>
-          <button class="btn btn-primary" (click)="zoomOut()">Zoom out</button>
-          <button class="btn btn-primary" (click)="rotateRight()">Rotar der</button>
+      <section *ngIf="imageUrl">
+
+        <angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl"><canvas #canvas></canvas></angular-cropper>
+
+        <div class="mt-2" style="display: flex; justify-content:space-around;">
+          <button class="btn btn-primary" (click)="getCroppedImage()"><i class="fa fa-scissors" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="zoomIn()"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="zoomOut()"><i class="fa fa-search-minus" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="rotateRight()"><i class="fa fa-repeat" aria-hidden="true"></i></button>
         </div>
-      </section>
-      <section *ngIf="croppedResult">
-        <img [src]="croppedResult" alt="...">
       </section>
     </div>
   </div>
