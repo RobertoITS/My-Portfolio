@@ -14,12 +14,25 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   //! Pasamos un observable de tipo any para sacar del json la propiedad result devuelta en la api
-  getAll(): Observable<any> {
-    return this.http.get<any>(this.url)
+  getAll(table:string): Observable<any> {
+    let direction = this.url + table
+    return this.http.get<any>(direction)
   }
 
-  putOne(id:string, teammate:FormData): Observable<any> {
-    let direction = this.url + id
+  putOne(table:string, id:string, teammate:FormData): Observable<any> {
+    let direction = this.url + `${table}/${id}`
     return this.http.put<any>(direction, teammate)
+  }
+
+  //Imagenes:
+  getFile(table:string, id:string){
+    let direction = this.url + `${table}/${id}`
+    return this.http.get(direction, { responseType: 'blob' })
+  }
+
+  //Modifica la imagen
+  putFile(table:string, id:string, image:any){
+    let direction = this.url + `upload/${table}/${id}`
+    return this.http.put(direction, image)
   }
 }

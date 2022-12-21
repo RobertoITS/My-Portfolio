@@ -13,9 +13,6 @@ export class MyInterfaceComponent {
 
   img!: any
 
-  //El objeto
-  teammate!: Teammates
-
   @ViewChild("popup") popup!: ElementRef
   @ViewChild("form") form!: ElementRef
 
@@ -31,10 +28,24 @@ export class MyInterfaceComponent {
   @ViewChild("profession") profession!:ElementRef
   @ViewChild("twitter") twitter!:ElementRef
 
+  //! Lista de objetos
   teammates!: Teammates[]
+  //El objeto
+  teammate!: Teammates
+
   constructor(private api: ApiService, private san: DomSanitizer){}
   ngOnInit(){
-    this.api.getAll().subscribe(data => {
+    //! Obtengo todos los datos! 21.12.2022
+    this.api.getAll('teammates').subscribe((data) => {
+      data.result.forEach((element: any, index: any) => {
+        this.api.getFile('teammates', element.id).subscribe((data) => {
+          console.log(data);
+
+          this.toImageObject(data, function(e:any){
+            element.img_id = e.target.result as string
+          })
+        })
+      })
       this.teammates = data.result //* Result es una propiedad del json devuelto
       console.log(data.result)
     })
@@ -55,7 +66,6 @@ export class MyInterfaceComponent {
   editTeammate(id:string){
     this.teammate = this.teammates.filter(x => x.id == id)[0]
     this.avatar = this.teammate.img_id
-    //console.log(this.avatar);
 
     if(this.avatar == '' || this.avatar == 'null' || this.avatar == null){
       // Pasamos a base64
@@ -83,6 +93,8 @@ export class MyInterfaceComponent {
     //* Creamos el body y agregamos los datos
     const body = new FormData()
 
+    const fileBody = new FormData()
+
     const path = this.img.src
     const file = this.dataURLtoFile(path, 'image')
     console.log(file);
@@ -98,12 +110,20 @@ export class MyInterfaceComponent {
     body.append('locate',this.locate.nativeElement.value)
     body.append('profession',this.profession.nativeElement.value)
     body.append('twitter',this.twitter.nativeElement.value)
-    //body.append('img_id',"asd")
-    body.append('file', file) //!
+    //body.append('file', file) //!
+    fileBody.append('file', file)
 
     //* Peticion PUT
-    this.api.putOne(this.teammate.id, body).subscribe(res => {
+    this.api.putOne('teammates' ,this.teammate.id, body).subscribe(res => {
       console.log(res);
+      if(res.ok){ //! Una vez que esta todo ok, continua
+        console.log(res.ok);
+
+        this.api.putFile('teammates', this.teammate.id, fileBody).subscribe((data) => {
+          console.log(data);
+        })
+      }
+
     })
 
     this.closePopUp()
@@ -146,4 +166,11 @@ export class MyInterfaceComponent {
     xhr.send();
   }
 
+
+  //! Obtiene la imagen desde el servidor 21.12.2022
+  toImageObject(file:any, callback: any){
+    const reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = callback
+  }
 }
