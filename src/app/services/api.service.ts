@@ -18,7 +18,7 @@ export class ApiService {
     return this.http.get<any>(this.url)
   }
 
-  putOne(id:string, teammate:any): Observable<any> {
+  putOne(id:string, teammate:FormData): Observable<any> {
     let direction = this.url + id
     return this.http.put<any>(direction, teammate)
   }

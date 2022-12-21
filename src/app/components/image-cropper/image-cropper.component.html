@@ -1,6 +1,8 @@
 <!--! La etiqueta img se encarga de llamar las funciones del input, el input queda oculto -->
 <div class="m-5 d-flex justify-content-center">
-  <img data-bs-toggle="tooltip" data-bs-title="Cambiar imagen" class="image" [src]="croppedResult" alt="..." (click)="call()">
+  <!--!Maneja un tooltip de bootstrap // Su variable modelo es croppedResult-->
+  <!--! Change, captura el cambio en el div-->
+  <img data-bs-toggle="tooltip" id="avatar" data-bs-title="Cambiar imagen" class="image" [src]="sanitizer.bypassSecurityTrustResourceUrl(croppedResult)" alt="..." (click)="call()" (change)="getFile($event)">
   <input #input type="file" accept="images/*" (change)="onSelectedFile($event)" style="display: none;">
 </div>
 
@@ -18,7 +20,7 @@
         <angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl"><canvas #canvas></canvas></angular-cropper>
 
         <div class="mt-2" style="display: flex; justify-content:space-around;">
-          <button class="btn btn-primary" (click)="getCroppedImage()"><i class="fa fa-scissors" aria-hidden="true"></i></button>
+          <button class="btn btn-primary" (click)="getCroppedImage($event)"><i class="fa fa-scissors" aria-hidden="true"></i></button>
           <button class="btn btn-primary" (click)="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></button>
           <button class="btn btn-primary" (click)="zoomIn()"><i class="fa fa-search-plus" aria-hidden="true"></i></button>
           <button class="btn btn-primary" (click)="zoomOut()"><i class="fa fa-search-minus" aria-hidden="true"></i></button>

@@ -21,33 +21,10 @@
 
   <div #popup class="send-message">
 
-
-    <img [src]="cropImgPreview" alt="asd">
-
     <!--!Crop image-->
     <div class="container mt-5 text-center">
-      <h3 class="mb-5">Angular Image Crop Example</h3>
-      <div class="col-md-12">
-        <input type="file" (change)="onFileChange($event)" />
-      </div>
-      <div class="col-md-8">
-        <image-cropper
-          [imageChangedEvent]="imgChangeEvt"
-          [maintainAspectRatio]="true"
-          [aspectRatio]="4 / 4"
-          [resizeToWidth]="256"
-          format="png"
-          (imageCropped)="cropImg($event)"
-          (imageLoaded)="imgLoad()"
-          (cropperReady)="initCropper()"
-          (loadImageFailed)="imgFailed()">
-        </image-cropper>
-      </div>
-      <div class="col-md-4">
-        <h6>Image Preview</h6>
-        <img id="imagen" alt="asd" [src]="cropImgPreview" />
-      </div>
-      <button id="button">Cortar</button>
+      <!--! img es la imagen del avatar -->
+      <app-image-cropper [img]="avatar"></app-image-cropper>
     </div>
     <!--!Crop image-->
 
@@ -138,10 +115,10 @@
 
         <div class="row">
           <div class="col">
-            <button id="test" #ok type="button">Ok</button>
+            <button id="test" (click)="putData()" type="button">Ok</button>
           </div>
           <div class="col">
-            <button #closePopup class="text-bg-danger" type="button">Cancel</button>
+            <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
           </div>
         </div>
     </div>
@@ -149,5 +126,3 @@
   </div>
 
 </div>
-
-<app-image-cropper src="assets/img/front-end.png"></app-image-cropper>

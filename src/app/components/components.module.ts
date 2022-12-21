@@ -10,6 +10,7 @@ import { AngularCropperjsModule } from 'angular-cropperjs';
 
 
 
+
 @NgModule({
   declarations: [
     CardComponent,

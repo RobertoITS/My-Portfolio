@@ -1,7 +1,7 @@
 import { Component, ViewChild, ElementRef, Input } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CropperComponent } from 'angular-cropperjs';
 import Cropper from 'cropperjs';
-import * as bootstrap from 'bootstrap'
 declare var $: any
 
 
@@ -11,12 +11,19 @@ declare var $: any
   styleUrls: ['./image-cropper.component.css'],
 })
 export class ImageCropperComponent {
+
+  constructor(public sanitizer: DomSanitizer){}
+
   @ViewChild('angularCropper') angularCropper!: CropperComponent
   @ViewChild('canvas') canvas!: ElementRef
   @ViewChild('input') input!: ElementRef <HTMLInputElement>
   @ViewChild('container') container!: ElementRef
+
+  @ViewChild('ipt') ipt!: ElementRef <HTMLInputElement>
+
+  @Input('img') croppedResult!: string
   imageUrl!: string
-  croppedResult: string = '../assets/img/mf-avatar.svg'
+  //croppedResult: string = '../assets/img/mf-avatar.svg'
   cropper!: Cropper
   config = {
     zoomable: true,
@@ -46,7 +53,7 @@ export class ImageCropperComponent {
     this.angularCropper.cropper.reset() //* Resetea el cropper
   }
 
-  getCroppedImage() {
+  getCroppedImage(event:any) {
     //* Rounded image
     //const rounded = this.getRoundedCanvas(this.angularCropper.cropper.getCroppedCanvas())
     /*rounded.toBlob((blob:any) => {
@@ -63,8 +70,10 @@ export class ImageCropperComponent {
       const reader = new FileReader()
       reader.readAsDataURL(blob!)
       reader.onload = () => {
+
         this.croppedResult = reader.result as string
-        console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
+
+        //! console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
         this.cancel() //* Cierra la ventana
       }
     }, "image/jpeg", 0.95)
@@ -159,5 +168,9 @@ export class ImageCropperComponent {
     $(document).ready(function() {
       $('[data-bs-toggle="tooltip"]').tooltip();
     })
+  }
+
+  getFile(event:any){
+    console.log(event.target.files);
   }
 }
