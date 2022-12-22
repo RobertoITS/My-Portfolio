@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Teammates } from "../models/teammates.interface";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Observable } from 'rxjs'
+import { Observable, forkJoin, switchMap } from 'rxjs'
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +26,8 @@ export class ApiService {
 
   //Imagenes:
   getFile(table:string, id:string){
-    let direction = this.url + `${table}/${id}`
+    let direction = this.url + `upload/${table}/${id}`
+    console.log(direction)
     return this.http.get(direction, { responseType: 'blob' })
   }
 

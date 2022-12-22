@@ -29,6 +29,8 @@ export class ImageCropperComponent {
     zoomable: true,
     aspectRatio: 1,
     viewMode: 1,
+    minCanvasWidth: 100,
+    minCanvasHeight: 100
   }
 
   call(){

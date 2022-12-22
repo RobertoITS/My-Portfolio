@@ -1,5 +1,4 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
 import { Teammates } from 'src/app/models/teammates.interface';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -33,27 +32,29 @@ export class MyInterfaceComponent {
   //El objeto
   teammate!: Teammates
 
-  constructor(private api: ApiService, private san: DomSanitizer){}
+  constructor(private api: ApiService){}
   ngOnInit(){
     //! Obtengo todos los datos! 21.12.2022
     this.api.getAll('teammates').subscribe((data) => {
       data.result.forEach((element: any, index: any) => {
         this.api.getFile('teammates', element.id).subscribe((data) => {
           console.log(data);
-
-          this.toImageObject(data, function(e:any){
-            element.img_id = e.target.result as string
-          })
+          if(data.type != 'application/json'){ //* Si lo que se devuelve es un json, es xq no existe la imagen en el server
+            this.toImageObject(data, function(e:any){
+              element.img_id = e.target.result as string
+            })
+          }
+          else {
+            element.img_id = ''
+          }
         })
       })
       this.teammates = data.result //* Result es una propiedad del json devuelto
-      console.log(data.result)
     })
   }
 
   ngAfterViewInit(){
     this.img = document.getElementById('avatar')
-    //console.log(this.img);
 
     //! Resetea los campos del formulario!!
     //* Con los botones, los reseteamos
@@ -70,7 +71,6 @@ export class MyInterfaceComponent {
     if(this.avatar == '' || this.avatar == 'null' || this.avatar == null){
       // Pasamos a base64
       this.toDataURL('../assets/img/mf-avatar.svg', (dataUrl: string) => {
-        console.log(dataUrl);
         this.avatar = dataUrl
       })
     }
@@ -93,11 +93,8 @@ export class MyInterfaceComponent {
     //* Creamos el body y agregamos los datos
     const body = new FormData()
 
-    const fileBody = new FormData()
-
     const path = this.img.src
     const file = this.dataURLtoFile(path, 'image')
-    console.log(file);
 
     body.append('id', this.teammate.id)
     body.append('name', this.name.nativeElement.value)
@@ -110,23 +107,28 @@ export class MyInterfaceComponent {
     body.append('locate',this.locate.nativeElement.value)
     body.append('profession',this.profession.nativeElement.value)
     body.append('twitter',this.twitter.nativeElement.value)
-    //body.append('file', file) //!
-    fileBody.append('file', file)
+    body.append('file', file) //!
 
     //* Peticion PUT
-    this.api.putOne('teammates' ,this.teammate.id, body).subscribe(res => {
-      console.log(res);
-      if(res.ok){ //! Una vez que esta todo ok, continua
-        console.log(res.ok);
-
-        this.api.putFile('teammates', this.teammate.id, fileBody).subscribe((data) => {
-          console.log(data);
-        })
-      }
-
+    //* Para dos consultas asincronicas, usamos una promesa:
+    const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
+      this.api.putOne('teammates', this.teammate.id, body).subscribe(data => {
+        if(data.ok){ //* Esto devuelve la API
+          resolve(true)
+        }
+        else {
+          reject(false)
+        }
+      })
     })
 
-    this.closePopUp()
+    promise.then((status) => {
+      if(status){ //* Si el valor es true, continua
+        this.api.putFile('teammates', this.teammate.id, body).subscribe(data => console.log(data))
+      }
+    })
+
+    this.closePopUp() //* Cerramos el popUp
   }
 
   closePopUp(){

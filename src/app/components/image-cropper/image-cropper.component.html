@@ -2,7 +2,7 @@
 <div class="m-5 d-flex justify-content-center">
   <!--!Maneja un tooltip de bootstrap // Su variable modelo es croppedResult-->
   <!--! Change, captura el cambio en el div-->
-  <img data-bs-toggle="tooltip" id="avatar" data-bs-title="Cambiar imagen" class="image" [src]="sanitizer.bypassSecurityTrustResourceUrl(croppedResult)" alt="..." (click)="call()" (change)="getFile($event)">
+  <img data-bs-toggle="tooltip" id="avatar" data-bs-title="Cambiar imagen" class="image" [src]="croppedResult" alt="..." (click)="call()" (change)="getFile($event)">
   <input #input type="file" accept="images/*" (change)="onSelectedFile($event)" style="display: none;">
 </div>
 
@@ -17,7 +17,7 @@
 
       <section *ngIf="imageUrl">
 
-        <angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl"><canvas #canvas></canvas></angular-cropper>
+          <angular-cropper #angularCropper [cropperOptions]="config" [imageUrl]="imageUrl" style="height: 200px;"><canvas #canvas></canvas></angular-cropper>
 
         <div class="mt-2" style="display: flex; justify-content:space-around;">
           <button class="btn btn-primary" (click)="getCroppedImage($event)"><i class="fa fa-scissors" aria-hidden="true"></i></button>
