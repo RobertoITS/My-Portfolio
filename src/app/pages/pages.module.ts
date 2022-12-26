@@ -29,7 +29,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ComponentsModule,
     LottieModule,
     SharedModule,
-    ImageCropperModule
+    ImageCropperModule,
+    SharedModule
   ],
   exports: [
     HomeComponent,

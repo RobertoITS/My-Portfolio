@@ -1,4 +1,5 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { Teammates } from 'src/app/models/teammates.interface';
 import { ApiService } from 'src/app/services/api.service';
 
@@ -11,6 +12,10 @@ export class MyInterfaceComponent {
   avatar: string = '' //El avatar del objeto
 
   img!: any
+
+  float!: any
+
+  submit!: any
 
   @ViewChild("popup") popup!: ElementRef
   @ViewChild("form") form!: ElementRef
@@ -32,6 +37,8 @@ export class MyInterfaceComponent {
   //El objeto
   teammate!: Teammates
 
+  subscription!: Subscription
+
   constructor(private api: ApiService){}
   ngOnInit(){
     //! Obtengo todos los datos! 21.12.2022
@@ -51,17 +58,43 @@ export class MyInterfaceComponent {
       })
       this.teammates = data.result //* Result es una propiedad del json devuelto
     })
+
+    this.subscription = this.api.refresh$.subscribe(() => { //! Hacemos una subscripcion para actualizar datos en tiempo real
+      //! Obtengo todos los datos! 21.12.2022
+    this.api.getAll('teammates').subscribe((data) => {
+      data.result.forEach((element: any, index: any) => {
+        this.api.getFile('teammates', element.id).subscribe((data) => {
+          console.log(data);
+          if(data.type != 'application/json'){ //* Si lo que se devuelve es un json, es xq no existe la imagen en el server
+            this.toImageObject(data, function(e:any){
+              element.img_id = e.target.result as string
+            })
+          }
+          else {
+            element.img_id = ''
+          }
+        })
+      })
+      this.teammates = data.result //* Result es una propiedad del json devuelto
+    })
+    })
   }
 
   ngAfterViewInit(){
+    this.submit = document.getElementById('submit')
     this.img = document.getElementById('avatar')
+    this.float = document.getElementById('float')
+    this.float.addEventListener('click', () => {
+      this.popup.nativeElement.classList.add('visible')
+      // Pasamos a base64
+      this.toDataURL('../assets/img/mf-avatar.svg', (dataUrl: string) => {
+        this.avatar = dataUrl
+      })
+    })
+  }
 
-    //! Resetea los campos del formulario!!
-    //* Con los botones, los reseteamos
-    //const btn = document.getElementById('test')
-    //btn?.addEventListener('click', () =>{
-    //  this.form.nativeElement.reset()
-    //})
+  ngOnDestroy(){
+    this.subscription.unsubscribe()
   }
 
   editTeammate(id:string){
@@ -87,9 +120,13 @@ export class MyInterfaceComponent {
     this.twitter.nativeElement.value = this.teammate.twitter
     this.popup.nativeElement.classList.add('visible')
 
+    this.submit.addEventListener('click', () => {
+      this.putData()
+    })
   }
 
   putData(){
+
     //* Creamos el body y agregamos los datos
     const body = new FormData()
 
@@ -135,6 +172,7 @@ export class MyInterfaceComponent {
     this.popup.nativeElement.classList.remove('visible')
     this.popup.nativeElement.scrollTop = 0 // Contenedor sroll top
     this.avatar = '' //Vaciamos el avatar
+    this.form.nativeElement.reset()
     //! Una vez que se envie el msg, se vacia el campo!!
   }
 

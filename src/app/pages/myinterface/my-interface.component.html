@@ -7,6 +7,7 @@
         <th scope="col">Name</th>
         <th scope="col">Last Name</th>
         <th scope="col">Profession</th>
+        <th scope="col">Profile</th>
       </tr>
     </thead>
     <tbody>
@@ -15,11 +16,12 @@
         <td>{{teammate.name}}</td>
         <td>{{teammate.last_name}}</td>
         <td>{{teammate.profession}}</td>
+        <td><img [src]="teammate.img_id" alt="Profile picture" style="width: 30px; border-radius: 15px"></td>
       </tr>
     </tbody>
   </table>
 
-  <div #popup class="send-message">
+  <div #popup id="popup" class="send-message">
 
     <!--!Crop image-->
     <div class="container mt-5 text-center">
@@ -115,7 +117,7 @@
 
         <div class="row">
           <div class="col">
-            <button id="test" (click)="putData()" type="button">Ok</button>
+            <button id="submit" type="button">Ok</button>
           </div>
           <div class="col">
             <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
@@ -126,3 +128,5 @@
   </div>
 
 </div>
+
+<app-float-button></app-float-button>
