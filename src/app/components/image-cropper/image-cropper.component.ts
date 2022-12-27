@@ -2,6 +2,7 @@ import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { CropperComponent } from 'angular-cropperjs';
 import Cropper from 'cropperjs';
+import { Dimensions, ImageCroppedEvent, ImageTransform, base64ToFile } from 'ngx-image-cropper';
 declare var $: any
 
 
@@ -12,26 +13,19 @@ declare var $: any
 })
 export class ImageCropperComponent {
 
-  constructor(public sanitizer: DomSanitizer){}
-
-  @ViewChild('angularCropper') angularCropper!: CropperComponent
-  @ViewChild('canvas') canvas!: ElementRef
   @ViewChild('input') input!: ElementRef <HTMLInputElement>
   @ViewChild('container') container!: ElementRef
 
-  @ViewChild('ipt') ipt!: ElementRef <HTMLInputElement>
-
   @Input('img') croppedResult!: string
+
   imageUrl!: string
-  //croppedResult: string = '../assets/img/mf-avatar.svg'
-  cropper!: Cropper
-  config = {
-    zoomable: true,
-    aspectRatio: 1,
-    viewMode: 1,
-    minCanvasWidth: 100,
-    minCanvasHeight: 100
-  }
+  croppedImage: any = '';
+  canvasRotation = 0;
+  rotation = 0;
+  scale = 1;
+  showCropper = false;
+  containWithinAspectRatio = false;
+  transform: ImageTransform = {};
 
   call(){
     this.input.nativeElement.click()
@@ -39,140 +33,107 @@ export class ImageCropperComponent {
 
   //* Obtenemos el archivo y mostramos en la etiqueta:
   onSelectedFile(event:any){
-    if (event.target.files && event.target.files[0]) {
-      const reader = new FileReader()
-      reader.readAsDataURL(event.target.files[0])
-      reader.onload = () => {
-        this.imageUrl = reader.result as string
-        this.container.nativeElement.classList.add('visible') //* Mostramos el contendor para cortar la imagen
-      }
-    }
+    this.imageUrl = event
+    this.container.nativeElement.classList.add('visible') //* Mostramos el contendor para cortar la imagen
   }
 
   cancel(){
     this.container.nativeElement.classList.remove('visible')
     this.input.nativeElement.value = ''
-    this.angularCropper.cropper.reset() //* Resetea el cropper
   }
 
-  getCroppedImage(event:any) {
-    //* Rounded image
-    //const rounded = this.getRoundedCanvas(this.angularCropper.cropper.getCroppedCanvas())
-    /*rounded.toBlob((blob:any) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(blob!)
-      reader.onload = () => {
-        this.croppedResult = reader.result as string
-        console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
 
-      }
-    }, "image/jpeg", 0.95)*/
 
-    this.angularCropper.cropper.getCroppedCanvas().toBlob((blob:any) => {
-      const reader = new FileReader()
-      reader.readAsDataURL(blob!)
-      reader.onload = () => {
+  //Pasa la imagen a base 64 desde el cropper
+  imageCropped(event: ImageCroppedEvent) {
+      this.croppedImage = event.base64;
+      console.log(event, base64ToFile(event.base64!));
+  }
 
-        this.croppedResult = reader.result as string
+  imageLoaded() {
+      this.showCropper = true;
+      console.log('Image loaded');
+  }
 
-        //! console.log(this.croppedResult); //* Nos da la ubicacion del archivo jpeg
-        this.cancel() //* Cierra la ventana
-      }
-    }, "image/jpeg", 0.95)
+  cropperReady(sourceImageDimensions: Dimensions) {
+      console.log('Cropper ready', sourceImageDimensions);
+  }
+
+  loadImageFailed() {
+      console.log('Load failed');
   }
 
   rotateLeft() {
-    this.angularCropper.cropper.rotate(-45)
+      this.canvasRotation--;
+      this.flipAfterRotate();
   }
 
   rotateRight() {
-    this.angularCropper.cropper.rotate(45)
+      this.canvasRotation++;
+      this.flipAfterRotate();
   }
 
-  zoomIn() {
-    this.angularCropper.cropper.zoom(0.1)
+  private flipAfterRotate() {
+      const flippedH = this.transform.flipH;
+      const flippedV = this.transform.flipV;
+      this.transform = {
+          ...this.transform,
+          flipH: flippedV,
+          flipV: flippedH
+      };
+  }
+
+
+  flipHorizontal() {
+      this.transform = {
+          ...this.transform,
+          flipH: !this.transform.flipH
+      };
+  }
+
+  flipVertical() {
+      this.transform = {
+          ...this.transform,
+          flipV: !this.transform.flipV
+      };
+  }
+
+  resetImage() {
+      this.scale = 1;
+      this.rotation = 0;
+      this.canvasRotation = 0;
+      this.transform = {};
   }
 
   zoomOut() {
-    this.angularCropper.cropper.zoom(-0.1)
+      this.scale -= .1;
+      this.transform = {
+          ...this.transform,
+          scale: this.scale
+      };
   }
 
-  /*getRoundedCanvas(sourceCanvas:any) {
-    var context = this.canvas.nativeElement.getContext('2d')!;
-    var width = sourceCanvas.width;
-    var height = sourceCanvas.height;
-
-    this.canvas.nativeElement.width = width;
-    this.canvas.nativeElement.height = height;
-    context.imageSmoothingEnabled = true;
-    context.drawImage(sourceCanvas, 0, 0, width, height);
-    context.globalCompositeOperation = 'destination-in';
-    context.beginPath();
-    context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
-    context.fill();
-    return this.canvas.nativeElement;
-  }*/
-
-  /*ngAfterViewInit(){
-
-    function getRoundedCanvas(sourceCanvas:any) {
-      var canvas = document.createElement('canvas')
-      var context = canvas.getContext('2d')!;
-      var width = sourceCanvas.width;
-      var height = sourceCanvas.height;
-
-      canvas.width = width;
-      canvas.height = height;
-      context.imageSmoothingEnabled = true;
-      context.drawImage(sourceCanvas, 0, 0, width, height);
-      context.globalCompositeOperation = 'destination-in';
-      context.beginPath();
-      context.arc(width / 2, height / 2, Math.min(width, height) / 2, 0, 2 * Math.PI, true);
-      context.fill();
-      return canvas;
-    }
-
-    var croppable = false
-    var image = <HTMLImageElement> document.getElementById('image')
-    var button = <HTMLButtonElement> document.getElementById('button')
-    var result = <HTMLImageElement> document.getElementById('result')
-    var cropper = new Cropper(image, {
-      aspectRatio:1,
-      viewMode: 1,
-      ready: function(){
-        croppable = true
-      }
-    })
-
-    button.onclick = function(){
-      var croppedCanvas
-      var roundedCanvas
-      var roundedImage
-
-      if(!croppable){return}
-
-      //* Crop
-      croppedCanvas = cropper.getCroppedCanvas()
-      //* Round
-      roundedCanvas = getRoundedCanvas(croppedCanvas)
-      //* Show
-      roundedImage = document.createElement('img');
-      roundedImage.src = roundedCanvas.toDataURL()
-      result.innerHTML = '';
-      result.appendChild(roundedImage);
-    }
-
-
-
-  }*/
-  ngOnInit(){
-    //* Tooltip para el img!
-    $(document).ready(function() {
-      $('[data-bs-toggle="tooltip"]').tooltip();
-    })
+  zoomIn() {
+      this.scale += .1;
+      this.transform = {
+          ...this.transform,
+          scale: this.scale
+      };
   }
 
-  getFile(event:any){
-    console.log(event.target.files);
+  toggleContainWithinAspectRatio() {
+      this.containWithinAspectRatio = !this.containWithinAspectRatio;
+  }
+
+  updateRotation() {
+      this.transform = {
+          ...this.transform,
+          rotate: this.rotation
+      };
+  }
+
+  getImage(){
+    this.croppedResult = this.croppedImage
+    this.cancel()
   }
 }
