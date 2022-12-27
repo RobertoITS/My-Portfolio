@@ -58,6 +58,11 @@ export class ApiService {
       )
   }
 
+  deleteFile(table:string, id:string): Observable<any>{
+    let direction = this.url + `upload/${table}/${id}`
+    return this.http.delete<any>(direction)
+  }
+
   //Imagenes:
   getFile(table:string, id:string){
     let direction = this.url + `upload/${table}/${id}`

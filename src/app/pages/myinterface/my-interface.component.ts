@@ -219,7 +219,23 @@ export class MyInterfaceComponent {
     console.log(id);
     if (confirm('Delete this record?')) {
       // Save it!
-      this.api.deleteOne('teammates', id).subscribe(data => console.log(data))
+      const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
+        this.api.deleteFile('teammates', id).subscribe(data => {
+          if(data.ok){ //* Esto devuelve la API
+            resolve(true)
+          }
+          else {
+            reject(false)
+          }
+        })
+      })
+
+      promise.then((status) => {
+        if(status){ //* Si el valor es true, continua
+          this.api.deleteOne('teammates', id).subscribe(data => console.log(data))
+        }
+      })
+
     } else {
       // Do nothing!
 
