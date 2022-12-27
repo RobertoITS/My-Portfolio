@@ -68,3 +68,11 @@
 .disable{
   pointer-events: none;
 }
+
+tbody>tr:hover{
+  cursor: pointer;
+}
+
+.none{
+  display: none;
+}

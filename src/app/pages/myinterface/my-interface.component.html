@@ -1,26 +1,29 @@
 <div class="relative">
 
+  <!--* Table  -->
   <table class="table table-dark table-hover">
     <thead>
       <tr>
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Last Name</th>
-        <th scope="col">Profession</th>
         <th scope="col">Profile</th>
+        <th scope="col">Delete</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let teammate of teammates" (click)="editTeammate(teammate.id)">
-        <th scope="row">{{teammate.id}}</th>
-        <td>{{teammate.name}}</td>
-        <td>{{teammate.last_name}}</td>
-        <td>{{teammate.profession}}</td>
-        <td><img [src]="teammate.img_id" alt="Profile picture" style="width: 30px; border-radius: 15px"></td>
+      <tr *ngFor="let teammate of teammates" >
+        <th scope="row" (click)="editTeammate(teammate.id)">{{teammate.id}}</th>
+        <td (click)="editTeammate(teammate.id)">{{teammate.name}}</td>
+        <td (click)="editTeammate(teammate.id)">{{teammate.last_name}}</td>
+        <td (click)="editTeammate(teammate.id)"><img [src]="teammate.img_id" alt="..." style="width: 30px; height: 30px; border-radius: 15px"></td>
+        <td ><button #delete style="background: red; border-radius: 20px; border: none" (click)="deleteData(teammate.id)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
       </tr>
     </tbody>
   </table>
+  <!--* Table  -->
 
+  <!--* Edit record -->
   <div #popup id="popup" class="send-message">
 
     <!--!Crop image-->
@@ -29,7 +32,6 @@
       <app-image-cropper [img]="avatar"></app-image-cropper>
     </div>
     <!--!Crop image-->
-
 
     <div class="container">
       <h2>Edit entry:</h2>
@@ -114,10 +116,10 @@
           </div>
         </form>
 
-
         <div class="row">
           <div class="col">
-            <button id="submit" type="button">Ok</button>
+            <button #put (click)="putData()" class="none" type="button">Ok</button>
+            <button #post (click)="postData()" class="none" type="button">Ok</button>
           </div>
           <div class="col">
             <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
@@ -126,6 +128,7 @@
     </div>
 
   </div>
+  <!--* Edit record -->
 
 </div>
 

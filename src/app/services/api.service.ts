@@ -36,6 +36,28 @@ export class ApiService {
       )
   }
 
+  //* Post
+  postOne(table:string, teammate:FormData): Observable<any>{
+    let direction = this.url + table
+    return this.http.post<any>(direction, teammate)
+      .pipe(
+        tap(() => {
+          this._refresh$.next()
+        })
+      )
+  }
+
+  //* Delete
+  deleteOne(table: string, id: string): Observable<any>{
+    let direction = this.url + `${table}/${id}`
+    return this.http.delete<any>(direction)
+      .pipe(
+        tap(() => {
+          this._refresh$.next()
+        })
+      )
+  }
+
   //Imagenes:
   getFile(table:string, id:string){
     let direction = this.url + `upload/${table}/${id}`

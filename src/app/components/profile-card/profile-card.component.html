@@ -1,5 +1,5 @@
 <div class="relative">
-  <img class="image" src="assets/img/profile.jpg" alt="Profile">
+  <img class="image" [src]="img2" alt="Profile">
   <!--!Send message-->
   <div #popup class="send-message">
     <img src="assets/img/comments.png" alt="asd">
@@ -17,13 +17,13 @@
   </div>
   <div #container class="container text-center">
     <div class="row name">
-      <h4 class="name-text"><strong>Name</strong></h4>
+      <h4 class="name-text"><strong>{{name}}</strong></h4>
     </div>
     <div class="row">
-      <h5>Profession</h5>
+      <h5>{{profession}}</h5>
     </div>
     <div class="row">
-      <p><i class="fa fa-map-marker" aria-hidden="true"></i><strong>Locate</strong></p>
+      <p><i class="fa fa-map-marker" aria-hidden="true"></i><strong>{{locate}}</strong></p>
     </div>
     <div class="row">
       <div class="col">
@@ -62,32 +62,32 @@
 
     <section class="mb-4 d-flex justify-content-around">
       <!-- Facebook -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button">
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="facebook" role="button">
         <i class="fa fa-facebook-official"></i>
       </a>
 
       <!-- Twitter -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button">
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="twitter" role="button">
         <i class="fa fa-twitter">
         </i>
       </a>
 
       <!-- Link -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button">
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="link" role="button">
         <i class="fa fa-link">
         </i>
       </a>
 
       <!-- Instagram -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button"><i
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="instagram" role="button"><i
           class="fa fa-instagram"></i></a>
 
       <!-- Linkedin -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button"><i
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="linkedin" role="button"><i
           class="fa fa-linkedin"></i></a>
 
       <!-- Github -->
-      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" href="#!" role="button"><i
+      <a aria-label="none" class="btn btn-floating m-1 rounded-circle" [href]="git" role="button"><i
           class="fa fa-github"></i></a>
     </section>
     <!-- Section: Social media -->

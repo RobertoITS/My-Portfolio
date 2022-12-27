@@ -15,22 +15,25 @@ export class MyInterfaceComponent {
 
   float!: any
 
-  submit!: any
-
-  @ViewChild("popup") popup!: ElementRef
-  @ViewChild("form") form!: ElementRef
+  @ViewChild("popup") popup!: ElementRef <HTMLDivElement>
+  @ViewChild("form") form!: ElementRef <HTMLFormElement>
 
   //* Form elements
-  @ViewChild("name") name!:ElementRef
-  @ViewChild("l_name") l_name!:ElementRef
-  @ViewChild("facebook") facebook!:ElementRef
-  @ViewChild("instagram") instagram!:ElementRef
-  @ViewChild("git") git!:ElementRef
-  @ViewChild("link") link!:ElementRef
-  @ViewChild("linkedin") linkedin!:ElementRef
-  @ViewChild("locate") locate!:ElementRef
-  @ViewChild("profession") profession!:ElementRef
-  @ViewChild("twitter") twitter!:ElementRef
+  @ViewChild("name") name!:ElementRef <HTMLInputElement>
+  @ViewChild("l_name") l_name!:ElementRef <HTMLInputElement>
+  @ViewChild("facebook") facebook!:ElementRef <HTMLInputElement>
+  @ViewChild("instagram") instagram!:ElementRef <HTMLInputElement>
+  @ViewChild("git") git!:ElementRef <HTMLInputElement>
+  @ViewChild("link") link!:ElementRef <HTMLInputElement>
+  @ViewChild("linkedin") linkedin!:ElementRef <HTMLInputElement>
+  @ViewChild("locate") locate!:ElementRef <HTMLInputElement>
+  @ViewChild("profession") profession!:ElementRef <HTMLInputElement>
+  @ViewChild("twitter") twitter!:ElementRef <HTMLInputElement>
+
+  //* Buttons
+  @ViewChild("put") put!: ElementRef <HTMLButtonElement>
+  @ViewChild("post") post!: ElementRef <HTMLButtonElement>
+  @ViewChild("delete") del!: ElementRef <HTMLButtonElement>
 
   //! Lista de objetos
   teammates!: Teammates[]
@@ -52,7 +55,7 @@ export class MyInterfaceComponent {
             })
           }
           else {
-            element.img_id = ''
+            element.img_id = '../assets/img/add.png' //* Cargamos una imagen predeterminada
           }
         })
       })
@@ -71,7 +74,7 @@ export class MyInterfaceComponent {
             })
           }
           else {
-            element.img_id = ''
+            element.img_id = '../assets/img/add.png' //* Cargamos una imagen predeterminada
           }
         })
       })
@@ -81,15 +84,17 @@ export class MyInterfaceComponent {
   }
 
   ngAfterViewInit(){
-    this.submit = document.getElementById('submit')
     this.img = document.getElementById('avatar')
     this.float = document.getElementById('float')
     this.float.addEventListener('click', () => {
+      this.put.nativeElement.classList.add('none')
+      this.post.nativeElement.classList.remove('none')
       this.popup.nativeElement.classList.add('visible')
       // Pasamos a base64
       this.toDataURL('../assets/img/mf-avatar.svg', (dataUrl: string) => {
         this.avatar = dataUrl
       })
+
     })
   }
 
@@ -98,6 +103,8 @@ export class MyInterfaceComponent {
   }
 
   editTeammate(id:string){
+    this.put.nativeElement.classList.remove('none')
+    this.post.nativeElement.classList.add('none')
     this.teammate = this.teammates.filter(x => x.id == id)[0]
     this.avatar = this.teammate.img_id
 
@@ -120,9 +127,6 @@ export class MyInterfaceComponent {
     this.twitter.nativeElement.value = this.teammate.twitter
     this.popup.nativeElement.classList.add('visible')
 
-    this.submit.addEventListener('click', () => {
-      this.putData()
-    })
   }
 
   putData(){
@@ -168,6 +172,61 @@ export class MyInterfaceComponent {
     this.closePopUp() //* Cerramos el popUp
   }
 
+  postData(){
+    //* Creamos el body y agregamos los datos
+    const body = new FormData()
+
+    const path = this.img.src
+    const file = this.dataURLtoFile(path, 'image')
+
+    body.append('name', this.name.nativeElement.value)
+    body.append('last_name',this.l_name.nativeElement.value)
+    body.append('facebook',this.facebook.nativeElement.value)
+    body.append('instagram',this.instagram.nativeElement.value)
+    body.append('github',this.git.nativeElement.value)
+    body.append('link',this.link.nativeElement.value)
+    body.append('linkedin',this.linkedin.nativeElement.value)
+    body.append('locate',this.locate.nativeElement.value)
+    body.append('profession',this.profession.nativeElement.value)
+    body.append('twitter',this.twitter.nativeElement.value)
+    body.append('file', file) //!
+
+    var id = ""
+    //* Peticion POST
+    //* Para dos consultas asincronicas, usamos una promesa:
+    const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
+      this.api.postOne('teammates', body).subscribe(data => {
+        if(data.ok){ //* Esto devuelve la API
+          id = data.result.insertId
+          resolve(true)
+        }
+        else {
+          reject(false)
+        }
+      })
+    })
+
+    promise.then((status) => {
+      if(status){ //* Si el valor es true, continua
+        this.api.putFile('teammates', id, body).subscribe(data => console.log(data))
+      }
+    })
+
+    this.closePopUp() //* Cerramos el popUp
+  }
+
+  deleteData(id:string){
+    console.log(id);
+    if (confirm('Delete this record?')) {
+      // Save it!
+      this.api.deleteOne('teammates', id).subscribe(data => console.log(data))
+    } else {
+      // Do nothing!
+
+    }
+    //
+  }
+
   closePopUp(){
     this.popup.nativeElement.classList.remove('visible')
     this.popup.nativeElement.scrollTop = 0 // Contenedor sroll top
@@ -187,8 +246,11 @@ export class MyInterfaceComponent {
     //Obtenemos el formato del archivo
     var strings = (mime as string).split('/')
     var strings2 = strings[1].split('+')
+    var file = new File([u8arr], `${filename}.${strings2[0]}`, {type:mime})
+    console.log(file);
 
-    return new File([u8arr], `${filename}.${strings2[0]}`, {type:mime});
+
+    return file
   }
 
   //Base 64
@@ -205,7 +267,6 @@ export class MyInterfaceComponent {
     xhr.responseType = 'blob';
     xhr.send();
   }
-
 
   //! Obtiene la imagen desde el servidor 21.12.2022
   toImageObject(file:any, callback: any){

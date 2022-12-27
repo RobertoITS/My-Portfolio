@@ -3,7 +3,19 @@
   <h2 class="text-center">My Teammates</h2>
   <h5 class="text-center">I am happy to be able to work with a wonderful work team made up of:</h5>
 </div>
-<div class="row">
-  <div class="col"><app-profile-card></app-profile-card></div>
-  <div class="col"><app-profile-card></app-profile-card></div>
+<div class="row row-cols-1 row-cols-lg-2">
+  <div *ngFor="let teammate of teammates">
+    <div class="col"><app-profile-card
+      [facebook]="teammate.facebook"
+      [git]="teammate.github"
+      [img]="teammate.img_id"
+      [instagram]="teammate.instagram"
+      [link]="teammate.link"
+      [linkedin]="teammate.linkedin"
+      [locate]="teammate.locate"
+      [name]="teammate.name"
+      ></app-profile-card></div>
+  </div>
+
 </div>
+

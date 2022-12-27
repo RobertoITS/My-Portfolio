@@ -1,4 +1,4 @@
-import { Component, ViewChild, ElementRef } from '@angular/core';
+import { Component, ViewChild, ElementRef, Input } from '@angular/core';
 import  * as bootstrap from 'bootstrap'
 
 @Component({
@@ -7,6 +7,18 @@ import  * as bootstrap from 'bootstrap'
   styleUrls: ['./profile-card.component.css']
 })
 export class ProfileCardComponent {
+
+  @Input("img") img2!: string
+  @Input("name") name!: string
+  @Input("profession") profession!: string
+  @Input("locate") locate!: string
+  @Input("facebook") facebook!: string
+  @Input("instagram") instagram!: string
+  @Input("twitter") twitter!: string
+  @Input("link") link!: string
+  @Input("linkedin") linkedin!: string
+  @Input("git") git!: string
+
   @ViewChild("message") btn!: ElementRef //! Esta directiva reemplaza el getElementById
   @ViewChild("container") container!: ElementRef //! Ver las etiquetas con el "#", son a las que hacer referencia
   @ViewChild("popup") popup!: ElementRef
