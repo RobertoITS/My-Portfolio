@@ -2,62 +2,59 @@
 <div class="m-5 d-flex justify-content-center">
   <!--!Maneja un tooltip de bootstrap // Su variable modelo es croppedResult-->
   <!--! Change, captura el cambio en el div-->
-  <img data-bs-toggle="tooltip" id="avatar" data-bs-title="Cambiar imagen" class="image" [src]="croppedResult" alt="..." (click)="call()" >
-  <!--<input #input type="file" accept="images/*" (change)="onSelectedFile($event)" style="display: none;">-->
+  <img data-bs-toggle="tooltip" id="avatar" data-bs-title="Cambiar imagen" class="image" [src]="croppedResult" alt="..."
+    (click)="call()">
 </div>
 
-
 <!--! Escondemos este contenedor -->
-<div #container class="m-5 d-flex justify-content-center _contenedor">
-  <div class="card" style="width: 40rem;">
+<div #container class="m-4 d-flex justify-content-center __container">
+  <div class="card">
     <div class="card-body">
-      <div style="display: flex; justify-content:end; margin: 8px">
-        <button class="btn btn-danger" (click)="cancel()"><i class="fa fa-times" aria-hidden="true"></i></button>
+      <div class="___container">
+        <button class="btn btn-danger btn-sm" (click)="cancel()"><i class="fa fa-times" aria-hidden="true"></i></button>
       </div>
 
-      <input #input type="file" (change)="onSelectedFile($event)" style="display: none;" /> <!--! Escondemos el input-->
-
+      <!--! Escondemos el input-->
+      <input #input id="file" type="file" (change)="onSelectedFile($event)" />
       <!--! Image cropper-->
       <div class="container">
         <div class="row justify-content-between">
           <div class="col col-1">
-            <div class="row mt-4"><button (click)="rotateLeft()"><i class="fa fa-undo" aria-hidden="true"></i></button></div>
-            <div class="row mt-4"><button (click)="rotateRight()"><i class="fa fa-repeat" aria-hidden="true"></i></button></div>
-            <div class="row mt-4"><button (click)="getImage()"><i class="fa fa-scissors" aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="rotateLeft()"><i class="fa fa-undo"
+                  aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="rotateRight()"><i class="fa fa-repeat"
+                  aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="getImage()"><i class="fa fa-scissors"
+                  aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="zoomIn()"><i class="fa fa-plus"
+                  aria-hidden="true"></i></button></div>
           </div>
           <div class="col-auto">
-            <image-cropper
-                [imageChangedEvent]="imageUrl"
-                [maintainAspectRatio]="true"
-                [containWithinAspectRatio]="containWithinAspectRatio"
-                [aspectRatio]="1 / 1"
-                [resizeToWidth]="256"
-                [cropperMinWidth]="128"
-                [onlyScaleDown]="true"
-                [roundCropper]="false"
-                [canvasRotation]="canvasRotation"
-                [transform]="transform"
-                [alignImage]="'left'"
-                [style.display]="showCropper ? null : 'none'"
-                format="png"
-                (imageCropped)="imageCropped($event)"
-                (imageLoaded)="imageLoaded()"
-                (cropperReady)="cropperReady($event)"
-                (loadImageFailed)="loadImageFailed()"
-            ></image-cropper>
+            <image-cropper [imageChangedEvent]="imageUrl" [maintainAspectRatio]="true"
+              [containWithinAspectRatio]="containWithinAspectRatio" [aspectRatio]="ratio" [resizeToWidth]="256"
+              [cropperMinWidth]="128" [onlyScaleDown]="true" [roundCropper]="false" [canvasRotation]="canvasRotation"
+              [transform]="transform" [alignImage]="'left'" [style.display]="showCropper ? null : 'none'" format="png"
+              (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()" (cropperReady)="cropperReady($event)"
+              (loadImageFailed)="loadImageFailed()"></image-cropper>
           </div>
           <div class="col col-1">
-            <div class="row mt-4"><button (click)="flipHorizontal()"><i class="fa fa-arrows-h" aria-hidden="true"></i></button></div>
-            <div class="row mt-4"><button (click)="flipVertical()"><i class="fa fa-arrows-v" aria-hidden="true"></i></button></div>
-            <div class="row mt-4"><button (click)="resetImage()"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="flipHorizontal()"><i
+                  class="fa fa-arrows-h" aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="flipVertical()"><i
+                  class="fa fa-arrows-v" aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="resetImage()"><i
+                  class="fa fa-arrows-alt" aria-hidden="true"></i></button></div>
+            <div class="row mt-4"><button class="btn btn-primary btn-sm" (click)="zoomOut()"><i class="fa fa-minus"
+                  aria-hidden="true"></i></button></div>
           </div>
         </div>
       </div>
 
-
-      <button (click)="toggleContainWithinAspectRatio()">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within Aspect Ratio'}}</button>
-
-      <input [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" /> <button (click)="zoomOut()">Zoom -</button> <button (click)="zoomIn()">Zoom +</button>
+      <button class="btn btn-primary mt-3 btn-sm"
+        (click)="toggleContainWithinAspectRatio()">{{containWithinAspectRatio?'Fill Aspect Ratio':'Contain Within Aspect
+        Ratio'}}</button>
+      <br>
+      <input class="mt-3" [(ngModel)]="rotation" placeholder="Rotation" type="number" (keyup)="updateRotation()" />
 
     </div>
   </div>

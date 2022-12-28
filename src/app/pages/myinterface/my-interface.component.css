@@ -76,3 +76,15 @@ tbody>tr:hover{
 .none{
   display: none;
 }
+
+.delete-entry {
+  background: red;
+  border-radius: 20px;
+  border: none;
+}
+
+td>img {
+  width: 30px;
+  height: 30px;
+  border-radius: 15px
+}

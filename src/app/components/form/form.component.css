@@ -19,7 +19,6 @@ form textarea {
   z-index: 1;
   border: 0px;
   border-bottom: 1px solid gray;
-  -webkit-transition: .2s ease-in-out;
   transition: .2s ease-in-out;
 }
 form input:valid,

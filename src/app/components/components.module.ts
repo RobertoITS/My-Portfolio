@@ -5,7 +5,6 @@ import { ProfileCardComponent } from './profile-card/profile-card.component';
 import { FormComponent } from './form/form.component';
 import { SplashScreenComponent } from './splash-screen/splash-screen.component';
 import { ImageCropperComponent } from './image-cropper/image-cropper.component';
-import { AngularCropperjsModule } from 'angular-cropperjs';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { FormsModule } from '@angular/forms';
 
@@ -23,7 +22,6 @@ import { FormsModule } from '@angular/forms';
   ],
   imports: [
     CommonModule,
-    AngularCropperjsModule,
     ImageCropperModule,
     FormsModule
   ],

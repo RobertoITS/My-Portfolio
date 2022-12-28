@@ -4,6 +4,7 @@
   <table class="table table-dark table-hover">
     <thead>
       <tr>
+        <!--* Table's column -->
         <th scope="col">ID</th>
         <th scope="col">Name</th>
         <th scope="col">Last Name</th>
@@ -12,12 +13,14 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let teammate of teammates" >
+      <!-- Teammates: query from database -->
+      <tr *ngFor="let teammate of teammates">
         <th scope="row" (click)="editTeammate(teammate.id)">{{teammate.id}}</th>
         <td (click)="editTeammate(teammate.id)">{{teammate.name}}</td>
         <td (click)="editTeammate(teammate.id)">{{teammate.last_name}}</td>
-        <td (click)="editTeammate(teammate.id)"><img [src]="teammate.img_id" alt="..." style="width: 30px; height: 30px; border-radius: 15px"></td>
-        <td ><button #delete style="background: red; border-radius: 20px; border: none" (click)="deleteData(teammate.id)"><i class="fa fa-trash" aria-hidden="true"></i></button></td>
+        <td (click)="editTeammate(teammate.id)"><img [src]="teammate.img_id" alt="..."></td>
+        <td><button class="delete-entry" #delete (click)="deleteData(teammate.id)"><i class="fa fa-trash"
+              aria-hidden="true"></i></button></td>
       </tr>
     </tbody>
   </table>
@@ -28,103 +31,111 @@
 
     <!--!Crop image-->
     <div class="container mt-5 text-center">
-      <!--! img es la imagen del avatar -->
-      <app-image-cropper [img]="avatar"></app-image-cropper>
+      <!--
+        @param: img => avatar image
+        @param: ratio => crop ratio (for avatar is 1 / 1)
+      -->
+      <app-image-cropper [ratio]="1 / 1" [img]="avatar"></app-image-cropper>
     </div>
     <!--!Crop image-->
 
     <div class="container">
       <h2>Edit entry:</h2>
-        <form #form id="form">
-          <div class="row row-cols-1 row-cols-lg-2 row-cols-md-2">
+      <form #form id="form">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-md-2">
 
-            <div class="col">
-              <label for="name" class="form-label">Name</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input #name id="name" type="text" class="form-control form-control-sm" placeholder="Name">
-              </div>
-            </div>
-            <div class="col">
-              <label for="l_name" class="form-label">Last name</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
-                <input #l_name id="l_name" type="text" class="form-control form-control-sm" placeholder="Last name">
-              </div>
-            </div>
-
-            <div class="col">
-              <label for="facebook" class="form-label">Facebook</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-facebook" aria-hidden="true"></i></span>
-                <input #facebook id="facebook" type="text" class="form-control form-control-sm" placeholder="Facebook">
-              </div>
-            </div>
-            <div class="col">
-              <label for="instagram" class="form-label">Instagram</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-instagram" aria-hidden="true"></i></span>
-                <input #instagram id="instagram" type="text" class="form-control form-control-sm" placeholder="Instagram">
-              </div>
-            </div>
-
-            <div class="col">
-              <label for="git" class="form-label">Git Hub</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-github" aria-hidden="true"></i></span>
-                <input #git id="git" type="text" class="form-control form-control-sm" placeholder="Git Hub">
-              </div>
-            </div>
-            <div class="col">
-              <label for="link" class="form-label">Link</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-link" aria-hidden="true"></i></span>
-                <input #link id="link" type="text" class="form-control form-control-sm" placeholder="Link">
-              </div>
-            </div>
-
-            <div class="col">
-              <label for="linkedin" class="form-label">Linkedin</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
-                <input #linkedin id="linkedin" type="text" class="form-control form-control-sm" placeholder="Linkedin">
-              </div>
-            </div>
-            <div class="col">
-              <label for="locate" class="form-label">Locate</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-map-marker" aria-hidden="true"></i></span>
-                <input #locate id="locate" type="text" class="form-control form-control-sm" placeholder="Locate">
-              </div>
-            </div>
-
-            <div class="col">
-              <label for="profession" class="form-label">Profession</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
-                <input #profession id="profession" type="text" class="form-control form-control-sm" placeholder="Profession">
-              </div>
-            </div>
-            <div class="col">
-              <label for="twitter" class="form-label">Twitter</label>
-              <div class="input-group mb-3">
-                <span class="input-group-text" id="basic-addon1"><i class="fa fa-twitter" aria-hidden="true"></i></span>
-                <input #twitter id="twitter" type="text" class="form-control form-control-sm" placeholder="Twitter">
-              </div>
-            </div>
-
-          </div>
-        </form>
-
-        <div class="row">
+          <!--* Inputs -->
           <div class="col">
-            <button #put (click)="putData()" class="none" type="button">Ok</button>
-            <button #post (click)="postData()" class="none" type="button">Ok</button>
+            <label for="name" class="form-label">Name</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+              <input #name id="name" type="text" class="form-control form-control-sm" placeholder="Name">
+            </div>
           </div>
           <div class="col">
-            <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
+            <label for="l_name" class="form-label">Last name</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+              <input #l_name id="l_name" type="text" class="form-control form-control-sm" placeholder="Last name">
+            </div>
           </div>
+
+          <div class="col">
+            <label for="facebook" class="form-label">Facebook</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-facebook" aria-hidden="true"></i></span>
+              <input #facebook id="facebook" type="text" class="form-control form-control-sm" placeholder="Facebook">
+            </div>
+          </div>
+          <div class="col">
+            <label for="instagram" class="form-label">Instagram</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-instagram" aria-hidden="true"></i></span>
+              <input #instagram id="instagram" type="text" class="form-control form-control-sm" placeholder="Instagram">
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="git" class="form-label">Git Hub</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-github" aria-hidden="true"></i></span>
+              <input #git id="git" type="text" class="form-control form-control-sm" placeholder="Git Hub">
+            </div>
+          </div>
+          <div class="col">
+            <label for="link" class="form-label">Link</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-link" aria-hidden="true"></i></span>
+              <input #link id="link" type="text" class="form-control form-control-sm" placeholder="Link">
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="linkedin" class="form-label">Linkedin</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-linkedin" aria-hidden="true"></i></span>
+              <input #linkedin id="linkedin" type="text" class="form-control form-control-sm" placeholder="Linkedin">
+            </div>
+          </div>
+          <div class="col">
+            <label for="locate" class="form-label">Locate</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-map-marker"
+                  aria-hidden="true"></i></span>
+              <input #locate id="locate" type="text" class="form-control form-control-sm" placeholder="Locate">
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="profession" class="form-label">Profession</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-briefcase" aria-hidden="true"></i></span>
+              <input #profession id="profession" type="text" class="form-control form-control-sm"
+                placeholder="Profession">
+            </div>
+          </div>
+          <div class="col">
+            <label for="twitter" class="form-label">Twitter</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-twitter" aria-hidden="true"></i></span>
+              <input #twitter id="twitter" type="text" class="form-control form-control-sm" placeholder="Twitter">
+            </div>
+          </div>
+
         </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <!--* Button for PUT -->
+          <button #put (click)="putData()" class="none" type="button">Ok</button>
+          <!--* Button for POST -->
+          <button #post (click)="postData()" class="none" type="button">Ok</button>
+        </div>
+        <div class="col">
+          <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
+        </div>
+      </div>
     </div>
 
   </div>
