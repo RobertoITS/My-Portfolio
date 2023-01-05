@@ -8,11 +8,15 @@ import { CollaboratorsComponent } from './collaborators/collaborators.component'
 import { ContactComponent } from './contact/contact.component';
 
 import { LottieModule } from 'ngx-lottie';
-import { MyInterfaceComponent } from './myinterface/my-interface.component';
+import { MyInterfaceComponent } from './my-interface/my-interface.component';
 import { PrincipalComponent } from './principal/principal.component'
 import { SharedModule } from '../shared/shared.module';
 import { ImageCropperComponent } from 'ngx-image-cropper';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { TeammatesComponent } from './teammates/teammates.component';
+import { AppRoutingModule } from '../app-routing.module';
+import { MyWorksComponent } from './my-works/my-works.component';
+import { MessagesComponent } from './messages/messages.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +27,9 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     ContactComponent,
     MyInterfaceComponent,
     PrincipalComponent,
+    TeammatesComponent,
+    MyWorksComponent,
+    MessagesComponent,
   ],
   imports: [
     CommonModule,
@@ -30,7 +37,8 @@ import { ImageCropperModule } from 'ngx-image-cropper';
     LottieModule,
     SharedModule,
     ImageCropperModule,
-    SharedModule
+    SharedModule,
+    AppRoutingModule
   ],
   exports: [
     HomeComponent,

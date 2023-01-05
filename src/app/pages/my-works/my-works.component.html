@@ -1,0 +1,91 @@
+<div class="relative">
+
+  <!--* Table  -->
+  <table class="table table-dark table-hover">
+    <thead>
+      <tr>
+        <!--* Table's column -->
+        <th scope="col">ID</th>
+        <th scope="col">Title</th>
+        <th scope="col">Picture</th>
+        <th scope="col">Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Teammates: query from database -->
+      <tr *ngFor="let work of works">
+        <th scope="row" (click)="editWork(work.id)">{{work.id}}</th>
+        <td (click)="editWork(work.id)">{{work.title}}</td>
+        <td (click)="editWork(work.id)"><img [src]="work.img_id" alt="..."></td>
+        <td><button class="delete-entry" #delete (click)="deleteData(work.id)"><i class="fa fa-trash"
+              aria-hidden="true"></i></button></td>
+      </tr>
+    </tbody>
+  </table>
+  <!--* Table  -->
+
+  <!--* Edit record -->
+  <div #popup id="popup" class="send-message">
+
+    <!--!Crop image-->
+    <div class="container mt-5 text-center">
+      <!--
+        @param: img => avatar image
+        @param: ratio => crop ratio (for avatar is 1 / 1)
+      -->
+      <app-image-cropper [ratio]="16 / 9" [img]="avatar" [br]="10" [height]="144" [width]="256"></app-image-cropper>
+    </div>
+    <!--!Crop image-->
+
+    <div class="container">
+      <h2>Edit entry:</h2>
+      <form #form id="form">
+        <div class="row row-cols-1 row-cols-lg-2 row-cols-md-2">
+
+          <!--* Inputs -->
+          <div class="col">
+            <label for="title" class="form-label">Title</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+              <input #title id="title" type="text" class="form-control form-control-sm" placeholder="Title">
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="descrip" class="form-label">Description</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-user" aria-hidden="true"></i></span>
+              <input #descrip id="descrip" type="text" class="form-control form-control-sm" placeholder="Description">
+            </div>
+          </div>
+
+          <div class="col">
+            <label for="url" class="form-label">URL</label>
+            <div class="input-group mb-3">
+              <span class="input-group-text" id="basic-addon1"><i class="fa fa-url" aria-hidden="true"></i></span>
+              <input #url id="url" type="text" class="form-control form-control-sm" placeholder="URL">
+            </div>
+          </div>
+
+        </div>
+      </form>
+
+      <div class="row">
+        <div class="col">
+          <!--* Button for PUT -->
+          <button #put (click)="putData()" class="none" type="button">Ok</button>
+          <!--* Button for POST -->
+          <button #post (click)="postData()" class="none" type="button">Ok</button>
+        </div>
+        <div class="col">
+          <button (click)="closePopUp()" class="text-bg-danger" type="button">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!--* Edit record -->
+
+</div>
+
+<app-float-button></app-float-button>

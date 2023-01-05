@@ -1,14 +1,14 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { Teammates } from 'src/app/models/teammates.interface';
+import { Works } from 'src/app/models/works.interface';
 import { ApiService } from 'src/app/services/api.service';
 
 @Component({
-  selector: 'app-my-interface',
-  templateUrl: './my-interface.component.html',
-  styleUrls: ['./my-interface.component.css']
+  selector: 'app-my-works',
+  templateUrl: './my-works.component.html',
+  styleUrls: ['./my-works.component.css']
 })
-export class MyInterfaceComponent {
+export class MyWorksComponent {
   avatar: string = '' //El avatar del objeto
 
   img!: any
@@ -18,36 +18,30 @@ export class MyInterfaceComponent {
   @ViewChild("popup") popup!: ElementRef <HTMLDivElement>
   @ViewChild("form") form!: ElementRef <HTMLFormElement>
 
-  //* Form elements
-  @ViewChild("name") name!:ElementRef <HTMLInputElement>
-  @ViewChild("l_name") l_name!:ElementRef <HTMLInputElement>
-  @ViewChild("facebook") facebook!:ElementRef <HTMLInputElement>
-  @ViewChild("instagram") instagram!:ElementRef <HTMLInputElement>
-  @ViewChild("git") git!:ElementRef <HTMLInputElement>
-  @ViewChild("link") link!:ElementRef <HTMLInputElement>
-  @ViewChild("linkedin") linkedin!:ElementRef <HTMLInputElement>
-  @ViewChild("locate") locate!:ElementRef <HTMLInputElement>
-  @ViewChild("profession") profession!:ElementRef <HTMLInputElement>
-  @ViewChild("twitter") twitter!:ElementRef <HTMLInputElement>
-
   //* Buttons
   @ViewChild("put") put!: ElementRef <HTMLButtonElement>
   @ViewChild("post") post!: ElementRef <HTMLButtonElement>
   @ViewChild("delete") del!: ElementRef <HTMLButtonElement>
 
+  //* Inputs
+  @ViewChild("title") title!: ElementRef <HTMLInputElement>
+  @ViewChild("descrip") descrip!: ElementRef <HTMLInputElement>
+  @ViewChild("url") url!: ElementRef <HTMLInputElement>
+
   //! Lista de objetos
-  teammates!: Teammates[]
+  works!: Works[]
   //El objeto
-  teammate!: Teammates
+  work!: Works
 
   subscription!: Subscription
 
   constructor(private api: ApiService){}
+
   ngOnInit(){
     //! Obtengo todos los datos! 21.12.2022
-    this.api.getAll('teammates').subscribe((data) => {
+    this.api.getAll('works').subscribe((data) => {
       data.result.forEach((element: any, index: any) => {
-        this.api.getFile('teammates', element.id).subscribe((data) => {
+        this.api.getFile('works', element.id).subscribe((data) => {
           console.log(data);
           if(data.type != 'application/json'){ //* Si lo que se devuelve es un json, es xq no existe la imagen en el server
             this.toImageObject(data, function(e:any){
@@ -59,14 +53,14 @@ export class MyInterfaceComponent {
           }
         })
       })
-      this.teammates = data.result //* Result es una propiedad del json devuelto
+      this.works = data.result //* Result es una propiedad del json devuelto
     })
 
     this.subscription = this.api.refresh$.subscribe(() => { //! Hacemos una subscripcion para actualizar datos en tiempo real
       //! Obtengo todos los datos! 21.12.2022
-    this.api.getAll('teammates').subscribe((data) => {
+    this.api.getAll('works').subscribe((data) => {
       data.result.forEach((element: any, index: any) => {
-        this.api.getFile('teammates', element.id).subscribe((data) => {
+        this.api.getFile('works', element.id).subscribe((data) => {
           console.log(data);
           if(data.type != 'application/json'){ //* Si lo que se devuelve es un json, es xq no existe la imagen en el server
             this.toImageObject(data, function(e:any){
@@ -78,7 +72,7 @@ export class MyInterfaceComponent {
           }
         })
       })
-      this.teammates = data.result //* Result es una propiedad del json devuelto
+      this.works = data.result //* Result es una propiedad del json devuelto
     })
     })
   }
@@ -91,7 +85,7 @@ export class MyInterfaceComponent {
       this.post.nativeElement.classList.remove('none')
       this.popup.nativeElement.classList.add('visible')
       // Pasamos a base64
-      this.toDataURL('../assets/img/mf-avatar.svg', (dataUrl: string) => {
+      this.toDataURL('../assets/img/page-1.png', (dataUrl: string) => {
         this.avatar = dataUrl
       })
 
@@ -102,29 +96,22 @@ export class MyInterfaceComponent {
     this.subscription.unsubscribe()
   }
 
-  editTeammate(id:string){
+  editWork(id:string){
     this.put.nativeElement.classList.remove('none')
     this.post.nativeElement.classList.add('none')
-    this.teammate = this.teammates.filter(x => x.id == id)[0]
-    this.avatar = this.teammate.img_id
+    this.work = this.works.filter(x => x.id == id)[0]
+    this.avatar = this.work.img_id
 
     if(this.avatar == '' || this.avatar == 'null' || this.avatar == null){
       // Pasamos a base64
-      this.toDataURL('../assets/img/mf-avatar.svg', (dataUrl: string) => {
+      this.toDataURL('../assets/img/page-1.png', (dataUrl: string) => {
         this.avatar = dataUrl
       })
     }
 
-    this.name.nativeElement.value = this.teammate.name
-    this.l_name.nativeElement.value = this.teammate.last_name
-    this.facebook.nativeElement.value = this.teammate.facebook
-    this.instagram.nativeElement.value = this.teammate.instagram
-    this.git.nativeElement.value = this.teammate.github
-    this.link.nativeElement.value = this.teammate.link
-    this.linkedin.nativeElement.value = this.teammate.linkedin
-    this.locate.nativeElement.value = this.teammate.locate
-    this.profession.nativeElement.value = this.teammate.profession
-    this.twitter.nativeElement.value = this.teammate.twitter
+    this.title.nativeElement.value = this.work.title
+    this.descrip.nativeElement.value = this.work.descrip
+    this.url.nativeElement.value = this.work.url
     this.popup.nativeElement.classList.add('visible')
 
   }
@@ -137,23 +124,16 @@ export class MyInterfaceComponent {
     const path = this.img.src
     const file = this.dataURLtoFile(path, 'image')
 
-    body.append('id', this.teammate.id)
-    body.append('name', this.name.nativeElement.value)
-    body.append('last_name',this.l_name.nativeElement.value)
-    body.append('facebook',this.facebook.nativeElement.value)
-    body.append('instagram',this.instagram.nativeElement.value)
-    body.append('github',this.git.nativeElement.value)
-    body.append('link',this.link.nativeElement.value)
-    body.append('linkedin',this.linkedin.nativeElement.value)
-    body.append('locate',this.locate.nativeElement.value)
-    body.append('profession',this.profession.nativeElement.value)
-    body.append('twitter',this.twitter.nativeElement.value)
+    body.append('id', this.work.id)
+    body.append('title', this.title.nativeElement.value)
+    body.append('descrip',this.descrip.nativeElement.value)
+    body.append('url',this.url.nativeElement.value)
     body.append('file', file) //!
 
     //* Peticion PUT
     //* Para dos consultas asincronicas, usamos una promesa:
     const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
-      this.api.putOne('teammates', this.teammate.id, body).subscribe(data => {
+      this.api.putOne('works', this.work.id, body).subscribe(data => {
         if(data.ok){ //* Esto devuelve la API
           resolve(true)
         }
@@ -165,7 +145,7 @@ export class MyInterfaceComponent {
 
     promise.then((status) => {
       if(status){ //* Si el valor es true, continua
-        this.api.putFile('teammates', this.teammate.id, body).subscribe(data => console.log(data))
+        this.api.putFile('works', this.work.id, body).subscribe(data => console.log(data))
       }
     })
 
@@ -179,23 +159,16 @@ export class MyInterfaceComponent {
     const path = this.img.src
     const file = this.dataURLtoFile(path, 'image')
 
-    body.append('name', this.name.nativeElement.value)
-    body.append('last_name',this.l_name.nativeElement.value)
-    body.append('facebook',this.facebook.nativeElement.value)
-    body.append('instagram',this.instagram.nativeElement.value)
-    body.append('github',this.git.nativeElement.value)
-    body.append('link',this.link.nativeElement.value)
-    body.append('linkedin',this.linkedin.nativeElement.value)
-    body.append('locate',this.locate.nativeElement.value)
-    body.append('profession',this.profession.nativeElement.value)
-    body.append('twitter',this.twitter.nativeElement.value)
+    body.append('title', this.title.nativeElement.value)
+    body.append('descrip',this.descrip.nativeElement.value)
+    body.append('url',this.url.nativeElement.value)
     body.append('file', file) //!
 
     var id = ""
     //* Peticion POST
     //* Para dos consultas asincronicas, usamos una promesa:
     const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
-      this.api.postOne('teammates', body).subscribe(data => {
+      this.api.postOne('works', body).subscribe(data => {
         if(data.ok){ //* Esto devuelve la API
           id = data.result.insertId
           resolve(true)
@@ -208,7 +181,7 @@ export class MyInterfaceComponent {
 
     promise.then((status) => {
       if(status){ //* Si el valor es true, continua
-        this.api.putFile('teammates', id, body).subscribe(data => console.log(data))
+        this.api.putFile('works', id, body).subscribe(data => console.log(data))
       }
     })
 
@@ -220,7 +193,7 @@ export class MyInterfaceComponent {
     if (confirm('Delete this record?')) {
       // Save it!
       const promise = new Promise<boolean>/* Devuelve un valor booleano */((resolve, reject) => {
-        this.api.deleteFile('teammates', id).subscribe(data => {
+        this.api.deleteFile('works', id).subscribe(data => {
           if(data.ok){ //* Esto devuelve la API
             resolve(true)
           }
@@ -232,7 +205,7 @@ export class MyInterfaceComponent {
 
       promise.then((status) => {
         if(status){ //* Si el valor es true, continua
-          this.api.deleteOne('teammates', id).subscribe(data => console.log(data))
+          this.api.deleteOne('works', id).subscribe(data => console.log(data))
         }
       })
 
@@ -242,6 +215,7 @@ export class MyInterfaceComponent {
     }
     //
   }
+
 
   closePopUp(){
     this.popup.nativeElement.classList.remove('visible')

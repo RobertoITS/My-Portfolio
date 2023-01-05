@@ -24,6 +24,15 @@ export class ImageCropperComponent {
   @Input('img') croppedResult!: string;
   @Input('ratio') ratio!: number;
 
+  //* Style image
+  @Input('width') width!: number
+  @Input('height') height!: number
+  @Input('br') br!: number
+
+  styleObject(): Object { //* los estilos para la imagen
+    return {'height.px': this.height, 'width.px': this.width, 'border-radius.px': this.br}
+  }
+
   imageUrl!: string;
   croppedImage: any = '';
   canvasRotation = 0;

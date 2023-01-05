@@ -6,9 +6,12 @@
 <body>
   <div class="container" data-aos="fade-right">
     <div class="row row-cols-1 row-cols-lg-3 row-cols-md-2 mt-3">
-      <div class="col d-flex justify-content-center align-items-center ">
-        <app-card></app-card>
+      <div *ngFor="let work of works">
+        <div class="col d-flex justify-content-center align-items-center ">
+          <app-card [descrip]="work.descrip" [img]="work.img_id" [title]="work.title" [url]="work.url"></app-card>
+        </div>
       </div>
+      <!--
       <div class="col d-flex justify-content-center align-items-center">
         <app-card></app-card>
       </div>
@@ -24,6 +27,9 @@
       <div class="col d-flex justify-content-center align-items-center">
         <app-card></app-card>
       </div>
+      <div class="col d-flex justify-content-center align-items-center">
+        <app-card></app-card>
+      </div>-->
     </div>
   </div>
 </body>
